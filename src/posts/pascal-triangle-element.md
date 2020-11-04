@@ -1,0 +1,51 @@
+---
+title: "Pascal Triangle element"
+date: "2020-11-05"
+featuredImage: ./pascals-triangle-types.jpg
+---
+
+Here is a problem in **UVA** book
+
+- Question: 485 - Pascal's Triangle of Death
+- [question link](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=6&page=show_problem&problem=426)
+- Time limit: 3.000s
+
+The key to our solution is this formula : ` c = c * (line - i) / i `
+
+```java
+import java.math.BigInteger;
+
+public class PascalsTriangleOfDeath {
+
+    public static void main(String[] args) {
+
+        printPascal(BigInteger.TEN.pow(60));
+
+    }
+
+    public static void printPascal(BigInteger limit) {
+
+        outer:
+        for (int line = 1; true; line++) {
+
+            BigInteger element = BigInteger.ONE;
+
+            for (int i = 1; i<= line; i++) {
+
+                if(element.compareTo(limit) > 0)
+                    break outer;
+
+                System.out.print(element + " ");
+
+                element = element.multiply(BigInteger.valueOf(line - i)).divide(BigInteger.valueOf(i));
+
+            }
+
+            System.out.println();
+
+        }
+
+    }
+
+}
+```
