@@ -28,8 +28,8 @@ module.exports = {
         name: `Mohammad Reza Khosravian personal website`,
         short_name: `mrkhosravian`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#212121`,
+        theme_color: `#212121`,
         display: `minimal-ui`,
         icon: `src/images/icon.png`, // This path is relative to the root of the site.
       },
