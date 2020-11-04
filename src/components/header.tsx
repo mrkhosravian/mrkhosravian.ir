@@ -5,7 +5,7 @@ import Logo from "./logo"
 
 const Header = ({ siteTitle }) => (
   <header className="py-10">
-    <div className="container mx-auto flex items-center gap-10">
+    <div className="container mx-auto flex items-center gap-10 px-5 md:px-0 justify-between md:justify-start">
       <Link to="/">
         <Logo />
       </Link>
