@@ -1,7 +1,7 @@
 import * as React from "react"
-import Header from "./header"
-import Footer from "./footer"
 import { graphql, useStaticQuery } from "gatsby"
+import Header from "../../components/header"
+import Footer from "../../components/footer"
 
 export default function Layout({ children }: any) {
   const { site } = useStaticQuery(
@@ -20,7 +20,10 @@ export default function Layout({ children }: any) {
   return (
     <div className="bg-etour-bg-gray">
       <Header siteTitle={site.siteMetadata.title}/>
-      <div className="container mx-auto px-5 md:px-0">{children}</div>
+      <div className="container mx-auto px-5 md:px-0">
+        <h1 className="text-4xl mb-10">Operating Systems Time Scheduling Algorithms</h1>
+        {children}
+      </div>
       <Footer />
     </div>
   )
