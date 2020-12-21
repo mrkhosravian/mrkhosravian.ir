@@ -16,11 +16,13 @@
     "gatsby-source-filesystem": "^2.4.0",
     "gatsby-transformer-remark": "^2.9.2",
     "gatsby-transformer-sharp": "^2.5.21",
+    "lodash": "^4.17.20",
     "prismjs": "^1.22.0",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-helmet": "^6.1.0"
+    "react-helmet": "^6.1.0",
+    "tinyqueue": "^2.0.3"
   },
   "devDependencies": {
     "@types/react-helmet": "^6.1.0",
