@@ -1,12 +1,14 @@
 import * as React from "react"
-import { Process } from "./types"
+import { Process } from "../../models/os/types"
 
 export default function Gantt({ data, timeWindows }: { data: Process[], timeWindows: any }) {
-
+  //TODO WHY undefined passed ????
+  if (data === undefined) data = []
+  if (timeWindows === undefined) timeWindows = []
   return (
     <div>
       <p className="mt-10">{timeWindows.map(it => it.toString()).join(", ")}</p>
-      <div className="grid grid-cols-1 gap-2 my-10">
+      <div className="grid grid-cols-1 gap-2 my-10 text-center">
         <div
           className="grid grid-cols-6 rounded-lg bg-gray-600 py-3 px-5 text-white">
           <span>Process</span>
@@ -23,7 +25,7 @@ export default function Gantt({ data, timeWindows }: { data: Process[], timeWind
             .map((process, i) => {
             return (
               <div key={i + 1}
-                   className={`grid grid-cols-6 py-2 px-3  ${i % 2 === 1 && "rounded-lg bg-gray-300"}`}>
+                   className={`grid grid-cols-6 py-2 px-5  ${i % 2 === 1 && "rounded-lg bg-gray-300"}`}>
                 <span>{process.processName}</span>
                 <span>{process.arrivalTime}</span>
                 <span>{process.serviceTime}</span>

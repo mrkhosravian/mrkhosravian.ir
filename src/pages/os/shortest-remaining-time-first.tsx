@@ -3,8 +3,9 @@ import { useState } from "react"
 import OSLayout from "./OSLayout"
 import SEO from "../../components/seo"
 import Gantt from "./Gantt"
-import { Frame, Process } from "./types"
+import { Frame, Process } from "../../models/os/types"
 import TinyQueue from "tinyqueue"
+import { clone, convertData } from "../../helper/os/helpers"
 
 const sample = `5
 3, 6, 4, 5, 2
@@ -34,7 +35,7 @@ function calcSJF(inputString: string): any {
 
   let convertedData: Process[] = null
   try {
-    convertedData = convertData(inputString)
+    convertedData = convertData(inputString, false).processes
   } catch (e) {
     console.log(e)
     return { data: [], timeWindows: [] }
@@ -88,42 +89,4 @@ function calcSJF(inputString: string): any {
   }
 
   return { data, timeWindows }
-}
-
-function clone(obj) {
-  return JSON.parse(JSON.stringify(obj))
-}
-
-function convertData(data: string): Process[] {
-  if (data.length === 0) throw new Error("length is zero")
-  const dataRows = data.split("\n")
-  if (dataRows.length > 3) throw new Error("too many lines")
-
-  if (isNaN(Number(dataRows[0]))) throw new Error("not a number")
-  if (dataRows[0].length === 0) throw new Error("wrong process numbers")
-  const process: number = Number(dataRows[0])
-
-  if (dataRows[1].length === 0) throw new Error("serviceTimes length is zero")
-  let serviceTimesString: string[] = dataRows[1].split(",")
-  if (serviceTimesString.length !== process) throw new Error("wrong serviceTimes")
-  let serviceTimes: number[] = serviceTimesString.map(it => Number(it.trim()))
-  for (const processTime of serviceTimes) {
-    if (isNaN(processTime)) throw new Error("Invalid Number")
-  }
-
-
-  if (dataRows[2].length === 0) throw new Error("arrivalTimes length is zero")
-  const arrivalTimesString: string[] = dataRows[2].split(",")
-  if (arrivalTimesString.length !== process) throw new Error("wrong arrivalTimes")
-  let arrivalTimes: number[] = arrivalTimesString.map(it => Number(it.trim()))
-  for (const arrivalTime of arrivalTimes) {
-    if (isNaN(arrivalTime)) throw new Error("Invalid Number")
-  }
-
-
-  let out: Process[] = []
-  for (let i = 0; i < process; i++) {
-    out.push(new Process(String(i + 1), arrivalTimes[i], serviceTimes[i]))
-  }
-  return out
 }

@@ -40,9 +40,6 @@ export class Process implements ProcessInterface {
   arrivalTime: number
   processName: string
   serviceTime: number
-  private responseTime: number
-  private turnaroundTime: number
-  private waitingTime: number
   finishedTime: number
   private _remainingTime: number
   private _start: number
@@ -86,6 +83,10 @@ export class Process implements ProcessInterface {
 
   public addFrame(frame: Frame) {
     this.frames.push(frame)
+  }
+
+  public getResponseRatio(time: number): number {
+    return 1 + ((time - this.arrivalTime) / this.serviceTime)
   }
 
 }

@@ -3,7 +3,7 @@ import { useState } from "react"
 import OSLayout from "./OSLayout"
 import SEO from "../../components/seo"
 import Gantt from "./Gantt"
-import { Frame, Process } from "./types"
+import { Frame, Process } from "../../models/os/types"
 import TinyQueue from "tinyqueue"
 
 const sample = `5
