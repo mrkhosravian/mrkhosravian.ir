@@ -2,9 +2,7 @@ export interface ProcessInterface {
   processName: string
   arrivalTime: number
   serviceTime: number
-  // turnaroundTime: number
-  // responseTime: number
-  // waitingTime: number
+  index: number
 }
 
 export class Frame {
@@ -13,7 +11,7 @@ export class Frame {
   public name: string
 
   public toString() {
-    return `Process[${this.name}]{${this.start},${this.end}}`
+    return `Process[${this.name}](${this.start},${this.end})`
   }
 
   constructor(start: number, end: number, name: string) {
@@ -54,11 +52,12 @@ export class Process implements ProcessInterface {
     return this.processName === other.processName
   }
 
-  constructor(name: string, arrivalTime: number, serviceTime: number) {
+  constructor(name: string, arrivalTime: number, serviceTime: number, index: number) {
     this.processName = name
     this.arrivalTime = arrivalTime
     this.serviceTime = serviceTime
     this._remainingTime = serviceTime
+    this.index = index
   }
 
   public isDone():boolean {
@@ -66,7 +65,7 @@ export class Process implements ProcessInterface {
   }
 
   public advance(n: number): number {
-    return this._remainingTime -= n
+    return this._remainingTime = Math.max(this._remainingTime - n, 0)
   }
 
   public getResponseTime(): number {
@@ -88,5 +87,7 @@ export class Process implements ProcessInterface {
   public getResponseRatio(time: number): number {
     return 1 + ((time - this.arrivalTime) / this.serviceTime)
   }
+
+  index: number
 
 }

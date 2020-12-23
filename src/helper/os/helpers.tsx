@@ -41,14 +41,14 @@ export function convertData(data: string, hasQuantum: boolean, quantumCount: num
   const quantumList: number[] = []
 
   if (hasQuantum) {
-    for (let i = 0; i < quantumCount; i++) {
-      quantumList.push(Number(dataRows[3].trim()))
+    for (let i = 3; i < 3 + quantumCount; i++) {
+      quantumList.push(Number(dataRows[i].trim()))
     }
   }
   out.quantumList = quantumList
 
   for (let i = 0; i < process; i++) {
-    out.processes.push(new Process(String(i + 1), arrivalTimes[i], serviceTimes[i]))
+    out.processes.push(new Process(String(i + 1), arrivalTimes[i], serviceTimes[i], i))
   }
   return out
 }
