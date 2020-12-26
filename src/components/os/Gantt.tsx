@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Process } from "../../models/os/types"
+import { Frame, Process } from "../../models/os/types"
 
 export default function Gantt({ data, timeWindows }: { data: Process[], timeWindows: any }) {
 
@@ -15,7 +15,8 @@ export default function Gantt({ data, timeWindows }: { data: Process[], timeWind
 
   return (
     <div className="">
-      <p className="mt-10">{timeWindows.map(it => it.toString()).join(", ")}</p>
+
+      <Chart frames={timeWindows} />
 
       <div className="flex items-start my-10 flex-col md:flex-row">
 
@@ -61,6 +62,35 @@ export default function Gantt({ data, timeWindows }: { data: Process[], timeWind
 
       </div>
 
+      <p className="mt-10">Gantt list: {timeWindows.map(it => it.toString()).join(", ")}</p>
+
+    </div>
+  )
+}
+
+const ProcessColors = ["", "bg-red-500", "bg-green-500", "bg-purple-500", "bg-yellow-500", "bg-blue-500","bg-pink-500", "bg-gray-500", "bg-indigo-500"]
+
+function Chart({ frames }: { frames: Frame[] }) {
+  if (frames.length === 0) return null
+  const totalTime = frames[frames.length - 1].end
+  return (
+    <div className="overflow-x-auto">
+      <div className="h-12 flex mt-16 mb-10 relative" style={{width: `${totalTime < 100 ? "100" : "400"}%`}}>
+      <span className="absolute bottom-full left-0 text-black"
+            style={{ transform: "translate(0, -10px)" }}>0</span>
+        {frames.map((frame, i) => {
+          return <>
+            {(i > 0 && i < frames.length && frame.start !== frames[i-1].end) && <div style={{width: `${(frame.start - frames[i-1].end) / totalTime * 100}%`}}/>}
+            <div
+              className={`h-full flex justify-center items-center text-white relative ${ProcessColors[parseInt(frame.name)]} ${i === 0 && "rounded-l-lg"} ${i === frames.length - 1 && "rounded-r-lg"}`}
+              style={{ width: `${(frame.end - frame.start) / totalTime * 100}%` }}>
+              {frame.name}
+              <span className="absolute bottom-full right-0 text-black"
+                    style={{ transform: `translate(${totalTime < 100 ? "0" : "-6px"}, -10px)` }}>{frame.end}</span>
+            </div>
+          </>
+        })}
+      </div>
     </div>
   )
 }
@@ -70,7 +100,7 @@ function AvgCard({ title, value }) {
     <div
       className="bg-gray-200 rounded-lg grid grid-cols-1 items-center content-center text-center text-xl h-32">
       <span>{title}</span>
-      <span className="text-4xl bold">{value}</span>
+      <span className="text-4xl bold">{value.toFixed(2)}</span>
     </div>
   )
 }
