@@ -1,4 +1,4 @@
-import { Process } from "./types"
+import Process from "./Process"
 
 export interface ConvertedData {
   quantumList: number[]

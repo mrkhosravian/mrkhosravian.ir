@@ -1,3 +1,5 @@
+import Frame from "./Frame"
+
 export interface ProcessInterface {
   processName: string
   arrivalTime: number
@@ -5,23 +7,7 @@ export interface ProcessInterface {
   index: number
 }
 
-export class Frame {
-  public start: number
-  public end: number
-  public name: string
-
-  public toString() {
-    return `Process[${this.name}](${this.start},${this.end})`
-  }
-
-  constructor(start: number, end: number, name: string) {
-    this.start = start
-    this.end = end
-    this.name = name
-  }
-}
-
-export class Process implements ProcessInterface {
+export default class Process implements ProcessInterface {
   get start(): number {
     return this._start
   }
@@ -35,6 +21,8 @@ export class Process implements ProcessInterface {
     this.frames.push(frame)
     return frame
   }
+
+  index: number
   arrivalTime: number
   processName: string
   serviceTime: number
@@ -87,7 +75,4 @@ export class Process implements ProcessInterface {
   public getResponseRatio(time: number): number {
     return 1 + ((time - this.arrivalTime) / this.serviceTime)
   }
-
-  index: number
-
 }

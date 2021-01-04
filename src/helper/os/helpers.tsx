@@ -1,5 +1,5 @@
-import { Process } from "../../models/os/types"
-import { ConvertedData } from "../../models/os/ConvertedData"
+import { ConvertedData } from "../../tools/os/models/ConvertedData"
+import Process from "../../tools/os/models/Process"
 
 export function clone(obj) {
   return JSON.parse(JSON.stringify(obj))
@@ -42,6 +42,7 @@ export function convertData(data: string, hasQuantum: boolean, quantumCount: num
 
   if (hasQuantum) {
     for (let i = 3; i < 3 + quantumCount; i++) {
+      if (dataRows[i].length === 0) throw new Error("Quantum number is not correct")
       quantumList.push(Number(dataRows[i].trim()))
     }
   }
