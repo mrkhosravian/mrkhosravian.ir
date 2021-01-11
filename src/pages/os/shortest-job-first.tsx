@@ -15,8 +15,10 @@ export default function ShortestJobFirstPage() {
   const { data, timeWindows } = new ShortestJobFirst().run(inputString.length === 0 ? sample : inputString)
 
   return (
-    <OSLayout title={CpuSchedulers.SJF_FULL} data={data} rows={3}
-              sample={sample} setInputString={setInputString}
-              timeWindows={timeWindows} />
+    <OSLayout
+      githubUrl={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/os/algorithms/ShortestJobFirst.ts"}
+      title={CpuSchedulers.SJF_FULL} data={data} rows={3}
+      sample={sample} setInputString={setInputString}
+      timeWindows={timeWindows} />
   )
 }

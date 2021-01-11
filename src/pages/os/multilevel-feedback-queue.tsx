@@ -18,8 +18,10 @@ export default function MultilevelFeedbackQueuePage() {
   const { data, timeWindows } = new MultilevelFeedbackQueue().run(inputString.length === 0 ? sample : inputString)
 
   return (
-    <OSLayout title={CpuSchedulers.MFQ_FULL} data={data} rows={5}
-              sample={sample} setInputString={setInputString}
-              timeWindows={timeWindows} />
+    <OSLayout
+      githubUrl={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/os/algorithms/MultilevelFeedbackQueue.ts"}
+      title={CpuSchedulers.MFQ_FULL} data={data} rows={5}
+      sample={sample} setInputString={setInputString}
+      timeWindows={timeWindows} />
   )
 }

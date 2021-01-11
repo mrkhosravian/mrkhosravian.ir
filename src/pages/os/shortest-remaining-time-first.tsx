@@ -16,8 +16,10 @@ export default function ShortestRemainingTimeFirstPage() {
   const { data, timeWindows } = new ShortestRemainingTimeFirst().run(inputString.length === 0 ? sample : inputString)
 
   return (
-    <OSLayout title={CpuSchedulers.SRTF_FULL} data={data} rows={3}
-              sample={sample} setInputString={setInputString}
-              timeWindows={timeWindows} />
+    <OSLayout
+      githubUrl={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/os/algorithms/ShortestRemainingTimeFirst.ts"}
+      title={CpuSchedulers.SRTF_FULL} data={data} rows={3}
+      sample={sample} setInputString={setInputString}
+      timeWindows={timeWindows} />
   )
 }

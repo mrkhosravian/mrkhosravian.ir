@@ -16,7 +16,7 @@ export default function RoundRobinPage() {
   const { data, timeWindows } = new RoundRobin().run(inputString.length === 0 ? sample : inputString)
 
   return (
-    <OSLayout title={CpuSchedulers.RR_FULL} data={data} rows={4}
+    <OSLayout githubUrl={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/os/algorithms/RoundRobin.ts"} title={CpuSchedulers.RR_FULL} data={data} rows={4}
               sample={sample} setInputString={setInputString}
               timeWindows={timeWindows} />
   )

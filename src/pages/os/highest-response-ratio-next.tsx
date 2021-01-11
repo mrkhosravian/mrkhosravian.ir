@@ -16,8 +16,10 @@ export default function HighestResponseRatioNextPage() {
   const { data, timeWindows } = new HighestResponseRatioNext().run(inputString.length === 0 ? sample : inputString)
 
   return (
-    <OSLayout title={CpuSchedulers.HRRN_FULL} data={data} rows={3}
-              sample={sample} setInputString={setInputString}
-              timeWindows={timeWindows} />
+    <OSLayout
+      githubUrl={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/os/algorithms/HighestResponseRatioNext.ts"}
+      title={CpuSchedulers.HRRN_FULL} data={data} rows={3}
+      sample={sample} setInputString={setInputString}
+      timeWindows={timeWindows} />
   )
 }

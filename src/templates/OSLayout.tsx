@@ -5,8 +5,9 @@ import Footer from "../components/footer"
 import { CpuSchedulers } from "../constants/os_constants"
 import SEO from "../components/seo"
 import Gantt from "../components/os/Gantt"
+import { FaGithub } from "react-icons/fa"
 
-export default function Layout({ rows, title, data, timeWindows, sample, setInputString }) {
+export default function Layout({ rows, title, data, timeWindows, sample, setInputString, githubUrl }) {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -25,7 +26,7 @@ export default function Layout({ rows, title, data, timeWindows, sample, setInpu
       <SEO title={title} />
       <Header siteTitle={site.siteMetadata.title} />
       <div className="container mx-auto px-5 md:px-0">
-        <h1 className="text-4xl mb-10">Operating Systems Time Scheduling
+        <h1 className="text-2xl md:text-4xl bold mb-10">Operating Systems Time Scheduling
           Algorithms</h1>
         <div
           className="my-5 grid md:grid-flow-col grid-cols-2 md:auto-cols-fr gap-5 text-center text-white">
@@ -45,7 +46,15 @@ export default function Layout({ rows, title, data, timeWindows, sample, setInpu
                 title={CpuSchedulers.MFQ_FULL}
                 className="rounded bg-gray-700 p-2">{CpuSchedulers.MFQ}</Link>
         </div>
-        <h2 className="text-4xl my-10">{title}</h2>
+        <div className="flex md:justify-between my-10 md:items-center flex-col md:flex-row">
+          <h2 className="text-2xl md:text-4xl mb-5 md:mb-0">{title}</h2>
+          <a href={githubUrl}
+             className="py-3 px-8 bg-gray-900 text-white rounded hover:bg-gray-500 text-lg text-center"
+             target="_blank">
+            <FaGithub className="inline-block mr-5" />
+            View Code
+          </a>
+        </div>
         <textarea name=""
                   className="w-full p-3 leading-relaxed whitespace-pre-line"
                   onChange={(e) => setInputString(e.target.value)} rows={rows}

@@ -84,8 +84,6 @@ function Chart({ frames }: { frames: Frame[] }) {
     }
   }
 
-  console.log(frameWithSpace)
-
   const totalTime = frameWithSpace[frameWithSpace.length - 1].end
   return (
     <div className="overflow-x-auto">

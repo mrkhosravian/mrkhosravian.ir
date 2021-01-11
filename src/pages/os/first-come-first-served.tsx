@@ -18,6 +18,8 @@ export default function FirstComeFirstServedPage() {
   return (
     <OSLayout title={CpuSchedulers.FCFS_FULL} data={data} rows={3}
               sample={sample} setInputString={setInputString}
-              timeWindows={timeWindows} />
+              timeWindows={timeWindows}
+              githubUrl={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/os/algorithms/FirstComeFirstServed.ts"}
+    />
   )
 }
