@@ -27,6 +27,9 @@ const Header = ({ siteTitle }) => {
                     <Link to="/os" title={"Operating Systems Algorithms"}
                           className="w-16 h-16 bg-gray-200 rounded-lg flex justify-center items-center hover:shadow-lg">OS
                     </Link>
+                    <Link to="/graph" title={"Graph Drawing Toll"}
+                          className="w-16 h-16 bg-gray-200 rounded-lg flex justify-center items-center hover:shadow-lg">GRAPH
+                    </Link>
                   </div>
                 </div>
 
