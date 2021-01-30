@@ -12,3 +12,15 @@ export enum CpuSchedulers {
   SJF = "SJF",
   MFQ = "MFQ"
 }
+
+
+export enum PageReplacementAlgorithm {
+  FIFO_FULL = "First In First Out",
+  FIFO = "FIFO",
+  LRU_FULL = "Least Recently Used",
+  LRU = "LRU",
+  CLOCK_FULL = "Clock",
+  CLOCK = "CLOCK",
+  OPTIMAL_FULL = "Optimal",
+  OPTIMAL = "OPTIMAL"
+}

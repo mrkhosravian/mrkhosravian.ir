@@ -53,3 +53,27 @@ export function convertData(data: string, hasQuantum: boolean, quantumCount: num
   }
   return out
 }
+
+
+export function inputPageReplacementData(data: string) {
+  if (data.length === 0) throw new Error("length is zero")
+  const dataRows = data.split("\n")
+  if (dataRows.length !== 2) throw new Error("Data Must be 2 lines")
+
+  if (dataRows[0].length === 0) throw new Error("pages length is zero")
+  let pagesString: string[] = dataRows[0].split(",")
+  let pages: number[] = pagesString.map(it => Number(it.trim()))
+  for (const processTime of pages) {
+    if (isNaN(processTime)) throw new Error("Invalid Number")
+  }
+
+  if (isNaN(Number(dataRows[1]))) throw new Error("not a number")
+  if (dataRows[1].length === 0) throw new Error("wrong process numbers")
+  const framesCount: number = Number(dataRows[1])
+
+
+  return {
+    pages,
+    framesCount
+  }
+}

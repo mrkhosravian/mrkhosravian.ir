@@ -1,18 +1,19 @@
 import * as React from "react"
 import SEO from "../../components/seo"
-import OSLayout from "../../templates/OSLayout"
 import { Link } from "gatsby"
 import Layout from "../../components/layout"
-import { CpuSchedulers } from "../../constants/os_constants"
-import Gantt from "../../components/os/Gantt"
+import {
+  CpuSchedulers,
+  PageReplacementAlgorithm
+} from "../../constants/os_constants"
 
 export default function IndexPage({ data }) {
   return (
     <Layout>
       <SEO title="Operating Systems Time Scheduling Algorithms" />
       <div className="container mx-auto px-5 md:px-0">
-        <h1 className="text-4xl mb-10">Operating Systems Time Scheduling
-          Algorithms</h1>
+        <h1 className="text-4xl mb-10">Operating Systems Algorithms</h1>
+        <h2 className="text-2xl mb-10">CPU Time Scheduling Algorithms</h2>
         <div
           className="my-5 grid md:grid-flow-col grid-cols-2 md:auto-cols-fr gap-5 text-center text-white">
           <Link to="/os/first-come-first-served" title={CpuSchedulers.FCFS_FULL}
@@ -30,6 +31,22 @@ export default function IndexPage({ data }) {
           <Link to="/os/multilevel-feedback-queue"
                 title={CpuSchedulers.MFQ_FULL}
                 className="rounded bg-gray-700 p-2">{CpuSchedulers.MFQ}</Link>
+        </div>
+        <h2 className="text-2xl mb-10">Page Replacement Algorithms</h2>
+        <div
+          className="my-5 grid md:grid-flow-col grid-cols-2 md:auto-cols-fr gap-5 text-center text-white">
+          <Link to="/os/page-replacement/first-in-first-out"
+                title={PageReplacementAlgorithm.FIFO_FULL}
+                className="rounded bg-gray-700 p-2">{PageReplacementAlgorithm.FIFO}</Link>
+          <Link to="/os/page-replacement/least-recently-used"
+                title={PageReplacementAlgorithm.LRU_FULL}
+                className="rounded bg-gray-700 p-2">{PageReplacementAlgorithm.LRU}</Link>
+          <Link to="/os/page-replacement/optimal"
+                title={PageReplacementAlgorithm.OPTIMAL_FULL}
+                className="rounded bg-gray-700 p-2">{PageReplacementAlgorithm.OPTIMAL}</Link>
+          <Link to="/os/page-replacement/clock"
+                title={PageReplacementAlgorithm.CLOCK_FULL}
+                className="rounded bg-gray-700 p-2">{PageReplacementAlgorithm.CLOCK}</Link>
         </div>
       </div>
     </Layout>
