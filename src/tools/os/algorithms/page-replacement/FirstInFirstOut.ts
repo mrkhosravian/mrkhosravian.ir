@@ -1,11 +1,8 @@
 import PageReplacer from "./PageReplacer"
-import MemoryStatus from "./MemoryStatus"
+import MemoryStatus from "../../models/MemoryStatus"
 
 export default class FirstInFirstOut extends PageReplacer {
   protected calculate(): void {
-    console.log(this.references, this.framesCount)
-
-
     // first page
     const pages = Array(this.framesCount).fill(null)
     pages[0] = this.references[0]
@@ -51,9 +48,5 @@ export default class FirstInFirstOut extends PageReplacer {
       lastMemoryStatus = memoryStatus
       this.timeWindows.push(memoryStatus)
     }
-
-
-    console.log(this.timeWindows)
-
   }
 }

@@ -4,8 +4,8 @@ import Header from "../components/header"
 import Footer from "../components/footer"
 import { PageReplacementAlgorithm } from "../constants/os_constants"
 import SEO from "../components/seo"
-import { FaGithub } from "react-icons/fa"
-import MemoryStatus from "../tools/os/algorithms/page-replacement/MemoryStatus"
+import { FaGithub, FaArrowRight } from "react-icons/fa"
+import MemoryStatus from "../tools/os/models/MemoryStatus"
 
 
 const sample = `2, 3, 2, 1, 5, 2, 4, 5, 3, 2, 5, 2
@@ -74,7 +74,12 @@ export default function PageReplacementLayout({
 
         <MemoryViewComponent timeWindows={timeWindows} />
 
-        {pageFaults}
+
+        <div
+          className="md:w-1/2 mt-5 bg-gray-200 rounded-lg grid grid-cols-1 items-center content-center text-center text-xl h-32">
+          <span>Page Faults</span>
+          <span className="text-4xl bold">{pageFaults === 0 ? "..." : pageFaults}</span>
+        </div>
 
       </div>
       <Footer />
@@ -86,22 +91,33 @@ function MemoryViewComponent({ timeWindows }: { timeWindows: MemoryStatus[] }) {
   return (
     <div className="grid grid-flow-col gap-5">
       {
-        timeWindows.map((timeWindow, i) => {
-          return <div key={i}><MemorySlots timeWindow={timeWindow} /></div>
+        timeWindows.map((memoryStatus, i) => {
+          return <div key={i}><MemorySlots memoryStatus={memoryStatus} /></div>
         })
       }
     </div>
   )
 }
 
-function MemorySlots({ timeWindow }) {
+function MemorySlots({ memoryStatus }) {
   return (
     <ul
       className="bg-gray-200 rounded">
-      {timeWindow.pages.map((page, i) => (
-        <li key={i} className={`py-5 text-center border border-2 border-gray-300 ${(i % timeWindow.pages.length) === timeWindow.faultIndex && "bg-yellow-500"}`}>
-          {page ?? <span className="text-gray-200">-1</span>  }
-        </li>)
+      {memoryStatus.pages.map((page, i) =>
+        !memoryStatus.useBits
+          ? <li key={i}
+                className={`py-5 text-center border border-2 border-gray-300 ${(i % memoryStatus.pages.length) === memoryStatus.faultIndex && "bg-yellow-500"}`}>
+            {page ?? <span className="text-gray-200">-1</span>}
+          </li>
+          : <li key={i}
+                className={`relative py-5 text-center border border-2 border-gray-300 ${(i % memoryStatus.pages.length) === memoryStatus.faultIndex && "bg-yellow-500"}`}>
+            <span
+              className="absolute left-0 top-0 opacity-50">{memoryStatus.useBits[i]}</span>
+            {
+              i === memoryStatus.pointer && <FaArrowRight className="absolute right-full top-6" />
+            }
+            {page ?? <span className="text-gray-200">-1</span>}
+          </li>
       )}
     </ul>
   )

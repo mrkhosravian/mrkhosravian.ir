@@ -1,19 +1,20 @@
 import PageReplacer from "./PageReplacer"
-import MemoryStatus from "./MemoryStatus"
+import MemoryStatus from "../../models/MemoryStatus"
 
 export default class Clock extends PageReplacer {
   protected calculate(): void {
     // first page
     const pages = Array(this.framesCount).fill(null)
-    const LRU = []
-    pages[0] = this.references[0]
-    LRU.push(this.references[0])
-    let memoryStatus = new MemoryStatus(pages, this.references[0], 0, true)
+    const useBits = Array(this.framesCount).fill(0)
+    pages[this.pointer] = this.references[0]
+    useBits[this.pointer] = 1
+    let memoryStatus = new MemoryStatus(pages, this.references[0], 0, true, (this.pointer + 1) % this.framesCount, useBits)
     this.increasePageFault()
 
     this.timeWindows.push(memoryStatus)
     let lastMemoryStatus = memoryStatus
     let fullPages = 1
+    this.increasePointer()
 
     for (let i = 1; i < this.references.length; i++) {
 
@@ -21,42 +22,55 @@ export default class Clock extends PageReplacer {
 
       //  search for page if exists
       if (lastMemoryStatus.pages.includes(referencedPage)) {
-        memoryStatus = new MemoryStatus(lastMemoryStatus.pages, referencedPage, -1, false)
 
-        // update LRU
-        const ind = LRU.indexOf(referencedPage)
-        LRU.splice(ind, 1)
-        LRU.push(referencedPage)
+        //get index of referenced page and set it to 1
+        const referencedPageUseBit = lastMemoryStatus.pages.indexOf(referencedPage)
+        useBits[referencedPageUseBit] = 1
+
+        // console.log("!!!!", referencedPageUseBit, JSON.parse(JSON.stringify(useBits)))
+
+        memoryStatus = new MemoryStatus(lastMemoryStatus.pages, referencedPage, -1, false, this.pointer, useBits)
 
         // there is free space for page
         //  replace if not exists
       } else if (fullPages < this.framesCount) {
+
         this.increasePageFault()
+
+        // update use bits
+        useBits[fullPages] = 1
+
         memoryStatus = new MemoryStatus([
           ...lastMemoryStatus.pages.slice(0, fullPages),
           referencedPage,
           ...lastMemoryStatus.pages.slice(fullPages + 1)
-        ], referencedPage, fullPages, true)
+        ], referencedPage, fullPages, true, (this.pointer + 1) % this.framesCount, useBits)
 
-        LRU.push(referencedPage)
 
+        this.increasePointer()
         fullPages++
       } else {
         //  frames are full
 
-        // get page index to replace from LRU
-        const pageToReplaceIndex = lastMemoryStatus.pages.indexOf(LRU.shift())
-        LRU.push(referencedPage)
+        // search for zero use bit and zero all 1s
 
-        this.increasePageFault()
+        while (useBits[this.pointer] === 1) {
+          useBits[this.pointer] = 0
+          this.increasePointer()
+        }
+
+        useBits[this.pointer] = 1
+
         memoryStatus = new MemoryStatus([
-          ...lastMemoryStatus.pages.slice(0, pageToReplaceIndex),
+          ...lastMemoryStatus.pages.slice(0, this.pointer),
           referencedPage,
-          ...lastMemoryStatus.pages.slice(pageToReplaceIndex + 1)
-        ], referencedPage, pageToReplaceIndex, true)
+          ...lastMemoryStatus.pages.slice(this.pointer + 1)
+        ], referencedPage, this.pointer, true, (this.pointer + 1) % this.framesCount, useBits)
+
+        this.increasePointer()
+        this.increasePageFault()
 
       }
-
 
       lastMemoryStatus = memoryStatus
       this.timeWindows.push(memoryStatus)

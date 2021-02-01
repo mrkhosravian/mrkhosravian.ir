@@ -1,5 +1,5 @@
 import { inputPageReplacementData } from "../../../../helper/os/helpers"
-import MemoryStatus from "./MemoryStatus"
+import MemoryStatus from "../../models/MemoryStatus"
 
 export interface PageReplacerInterface {
   run(inputString)
@@ -10,6 +10,15 @@ export default abstract class PageReplacer implements PageReplacerInterface {
   protected references: number[]
   protected timeWindows: MemoryStatus[] = []
   private _pageFaults: number = 0
+  private _pointer: number = 0
+
+  get pointer(): number {
+    return this._pointer
+  }
+
+  increasePointer() {
+    this._pointer = (this.pointer + 1) % this.framesCount
+  }
 
   run(inputString) {
     try {
@@ -33,7 +42,7 @@ export default abstract class PageReplacer implements PageReplacerInterface {
   }
 
   protected increasePageFault() {
-    this._pageFaults++;
+    this._pageFaults++
   }
 
 }

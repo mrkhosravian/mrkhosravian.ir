@@ -1,5 +1,5 @@
 import PageReplacer from "./PageReplacer"
-import MemoryStatus from "./MemoryStatus"
+import MemoryStatus from "../../models/MemoryStatus"
 
 export default class LeastRecentlyUsed extends PageReplacer {
   protected calculate(): void {
