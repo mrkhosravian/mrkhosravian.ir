@@ -28,14 +28,6 @@ function bfs(rGraph, s, t, parent) {
 export default function fordFulkerson(graph, s, t) {
   let v
   let u
-  /* Create a residual graph and fill the residual graph
-     with given capacities in the original graph as
-     residual capacities in residual graph
-     Residual graph where rGraph[i][j] indicates
-     residual capacity of edge from i to j (if there
-     is an edge. If rGraph[i][j] is 0, then there is
-     not)
-    */
   if (s < 0 || t < 0 || s > graph.length-1 || t > graph.length-1){
     throw new Error("Ford-Fulkerson-Maximum-Flow :: invalid sink or source")
   }
@@ -71,8 +63,6 @@ export default function fordFulkerson(graph, s, t) {
     maxFlow += pathFlow
   }
 
-  console.table(JSON.parse(JSON.stringify(graph)))
-  console.table(JSON.parse(JSON.stringify(rGraph)))
   for (let i = 0; i < graph.length; i++) {
     for (let j = 0; j < graph.length; j++) {
       const r = rGraph[i][j]
@@ -81,8 +71,7 @@ export default function fordFulkerson(graph, s, t) {
       if (r > 0 && graph[j][i] == 0) rGraph[i][j] = 0
     }
   }
-  console.table(JSON.parse(JSON.stringify(rGraph)))
 
-  // Return the overall flow
+  // Return the overall flow and rGraph
   return { maxFlow, rGraph }
 }

@@ -9,6 +9,7 @@ import {
 import Layout from "../../components/layout"
 import { parse as parseQueryString } from "querystring"
 import fordFulkerson from "../../tools/graph/ford-fulkerson"
+import { FaGithub } from "react-icons/fa"
 
 const samplePlaceHolder = `6 \t\t\t\t# total
 0 5 \t\t\t# start end
@@ -35,7 +36,7 @@ export default function GraphPage(props) {
 
   const [input, setInput] = useState("")
 
-  const { nodes, edges } = calc(input)
+  const { nodes, edges, maxFlow } = calc(input)
 
   const data: Data = {
     nodes,
@@ -58,12 +59,31 @@ export default function GraphPage(props) {
 
   return (
     <Layout>
-      <textarea name="inputGraph" rows={10} className="w-full mb-5 p-5"
-                value={input}
-                placeholder={samplePlaceHolder}
-                onChange={(e) => setInput(e.target.value)}
-      />
-      <div className="rounded bg-gray-200" style={{ height: "50rem" }}
+      <div
+        className="flex md:justify-between my-10 md:items-center flex-col md:flex-row">
+        <h2 className="text-2xl md:text-4xl mb-5 md:mb-0">Ford Fulkerson</h2>
+        <a href={"https://github.com/mrkhosravian/mrkhosravian.ir/blob/master/src/tools/graph/ford-fulkerson/index.ts"}
+           className="py-3 px-8 bg-gray-900 text-white rounded hover:bg-gray-500 text-lg text-center"
+           target="_blank">
+          <FaGithub className="inline-block mr-5" />
+          View Code
+        </a>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5 ">
+        <textarea name="inputGraph" rows={12} className="md:col-span-2 p-5"
+                  value={input}
+                  placeholder={samplePlaceHolder}
+                  onChange={(e) => setInput(e.target.value)}
+        />
+        <div
+          className="bg-gray-200 rounded-lg grid grid-cols-1 items-center content-center text-center text-xl p-5">
+          <span className="text-2xl">Maximum Flow</span>
+          <span className="text-4xl bold">{!maxFlow ? "..." : maxFlow}</span>
+        </div>
+      </div>
+
+      <div className="rounded bg-gray-200" style={{ height: "35rem" }}
            ref={domNode}
       />
     </Layout>
@@ -71,28 +91,6 @@ export default function GraphPage(props) {
 }
 
 function calc(input: string) {
-  // const graph = [
-  //   [0, 16, 13, 0, 0, 0],
-  //   [0, 0, 10, 12, 0, 0],
-  //   [0, 4, 0, 0, 14, 0],
-  //   [0, 0, 9, 0, 0, 20],
-  //   [0, 0, 0, 7, 0, 4],
-  //   [0, 0, 0, 0, 0, 0]
-  // ]
-
-  // const graph = [
-  //   [0, 10, 0, 10, 0, 0],
-  //   [0, 0, 4, 2, 8, 0],
-  //   [0, 0, 0, 0, 0, 10],
-  //   [0, 0, 0, 0, 9, 0],
-  //   [0, 0, 6, 0, 0, 10],
-  //   [0, 0, 0, 0, 0, 0]
-  // ]
-
-  // let fordFulkerson1 = fordFulkerson(graph, 0, 5)
-  // console.log("The maximum possible flow is " +
-  //   fordFulkerson1)
-
   const sample = `6
 0 5
 0 1 16
@@ -119,7 +117,6 @@ function calc(input: string) {
   const ff = fordFulkerson(convertedData.graph, convertedData.start, convertedData.end)
 
   const rGraph = ff.rGraph
-  const edgess = []
 
   // create an array with nodes
   const nodes = new DataSet(
@@ -127,20 +124,10 @@ function calc(input: string) {
       .fill(undefined)
       .map((it, i) => ({ id: i, label: i.toString() }))
   )
-  // const nodes = new DataSet([
-  //   { id: 0, label: "0" },
-  //   { id: 1, label: "1" },
-  //   { id: 2, label: "2" },
-  //   { id: 3, label: "3" },
-  //   { id: 4, label: "4" },
-  //   { id: 5, label: "5" }
-  // ])
 
-  // console.log(createEdges(rGraph, convertedData.graph))
   const edges = new DataSet(createEdges(rGraph, convertedData.graph))
 
-
-  return { nodes, edges }
+  return { nodes, edges, maxFlow: ff.maxFlow }
 }
 
 interface Edge {
