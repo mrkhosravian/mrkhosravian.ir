@@ -4,23 +4,9 @@ const axios = require("axios")
 
 
 exports.onPreInit = async () => {
-  console.log("START:::::::::::::::Test Kojaro")
-  await axios.get("https://www.kojaro.com/")
+  await axios.get("http://mhdarabi.ir/mamad_jakesh_hastam/some.json")
     .then(res => console.log(JSON.stringify(res.data, null, 4)))
     .catch(err => console.log(JSON.stringify(err, null, 4)))
-  console.log("START:::::::::::::::TestAPI")
-  await axios.get("https://cat-fact.herokuapp.com/facts")
-    .then(res => console.log(JSON.stringify(res.data, null, 4)))
-    .catch(err => console.log(JSON.stringify(err, null, 4)))
-  console.log("START:::::::::::::::Digikala")
-  await axios.get("https://www.digikala.com")
-    .then(res => console.log(JSON.stringify(res.data, null, 4)))
-    .catch(err => console.log(JSON.stringify(err, null, 4)))
-  console.log("START:::::::::::::::Axios")
-  await axios.get("https://wp.itourapp.ir/wp-json/wp/v2/posts/1")
-    .then(res => console.log(JSON.stringify(res.data, null, 4)))
-    .catch(err => console.log(JSON.stringify(err, null, 4)))
-  console.log("END::::::::::test netlify connection to https://wp.itourapp.ir")
 }
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
