@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "axios": "^0.20.0",
     "cypress": "^6.2.1",
     "dotenv": "^8.2.0",
     "gatsby": "^2.26.1",
