@@ -6,6 +6,7 @@ import { CpuSchedulers } from "../constants/os_constants"
 import SEO from "../components/seo"
 import Gantt from "../components/os/Gantt"
 import { FaGithub } from "react-icons/fa"
+import Layout from "../components/layout";
 
 export default function OSLayout({
                                    rows,
@@ -30,9 +31,8 @@ export default function OSLayout({
     `
   )
   return (
-    <div className="bg-etour-bg-gray">
+    <Layout>
       <SEO title={title} />
-      <Header siteTitle={site.siteMetadata.title} />
       <div className="container mx-auto px-5 md:px-0">
         <h1 className="text-2xl md:text-4xl bold mb-10">Operating Systems Time
           Scheduling
@@ -71,7 +71,6 @@ export default function OSLayout({
                   placeholder={sample} />
         <Gantt data={data} timeWindows={timeWindows} />
       </div>
-      <Footer />
-    </div>
+    </Layout>
   )
 }

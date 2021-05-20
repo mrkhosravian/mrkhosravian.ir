@@ -4,8 +4,19 @@
 
 @tailwind utilities;
 
+#___gatsby, #gatsby-focus-wrapper {
+    min-height: 100vh;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
 .single-post > ul {
-  @apply my-5 mx-auto list-disc list-inside;
+    @apply my-5 mx-auto list-disc list-inside;
 }
 
 .single-post > p,
@@ -18,58 +29,58 @@
 .single-post > table,
 .single-post > blockquote,
 .single-post > ul {
-  @apply max-w-3xl mx-auto;
+    @apply max-w-3xl mx-auto;
 }
 
 .single-post p,
 .single-post p > * {
-  @apply my-10 mx-auto;
+    @apply my-10 mx-auto;
 }
 
 .single-post > div {
-  @apply my-16;
+    @apply my-16;
 }
 
 .single-post a {
-  @apply underline font-semibold;
+    @apply underline font-semibold;
 }
 
 .single-post img {
-  @apply w-full rounded;
+    @apply w-full rounded;
 }
 
 .single-post > ol {
-  @apply my-5 mx-auto list-decimal list-inside;
+    @apply my-5 mx-auto list-decimal list-inside;
 }
 
 .single-post blockquote {
-  @apply border-l-8 pl-10 mx-auto my-10 font-light text-gray-900 text-opacity-75;
+    @apply border-l-8 pl-10 mx-auto my-10 font-light text-gray-900 text-opacity-75;
 }
 
 .single-post hr {
-  @apply my-10;
+    @apply my-10;
 }
 
 .single-post h1 {
-  @apply my-10 text-4xl font-bold mx-auto;
+    @apply my-10 text-4xl font-bold mx-auto;
 }
 
 .single-post h2 {
-  @apply my-10 text-4xl mx-auto;
+    @apply my-10 text-4xl mx-auto;
 }
 
 .single-post h3 {
-  @apply my-10 text-3xl mx-auto;
+    @apply my-10 text-3xl mx-auto;
 }
 
 .single-post h4 {
-  @apply my-10 text-2xl mx-auto;
+    @apply my-10 text-2xl mx-auto;
 }
 
 .single-post h5 {
-  @apply my-10 text-xl mx-auto;
+    @apply my-10 text-xl mx-auto;
 }
 
 .single-post h6 {
-  @apply my-10 text-xl mx-auto;
+    @apply my-10 text-xl mx-auto;
 }

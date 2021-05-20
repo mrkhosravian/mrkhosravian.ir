@@ -11,8 +11,8 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'etour-bg-gray': '#F5F5F7',
-        'etour-gray': '#222832',
+        'mr-bg-gray': '#F5F5F7',
+        'mr-gray': '#222832',
       }
     },
   },

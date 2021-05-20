@@ -1,15 +1,14 @@
-import * as React from "react"
-import { graphql, Link, useStaticQuery } from "gatsby"
-import Header from "../components/header"
-import Footer from "../components/footer"
-import { PageReplacementAlgorithm } from "../constants/os_constants"
-import SEO from "../components/seo"
-import { FaGithub, FaArrowRight } from "react-icons/fa"
-import MemoryStatus from "../tools/os/models/MemoryStatus"
+import * as React from "react";
+import { graphql, Link, useStaticQuery } from "gatsby";
+import { PageReplacementAlgorithm } from "../constants/os_constants";
+import SEO from "../components/seo";
+import { FaArrowRight, FaGithub } from "react-icons/fa";
+import MemoryStatus from "../tools/os/models/MemoryStatus";
+import Layout from "../components/layout";
 
 
 const sample = `2, 3, 2, 1, 5, 2, 4, 5, 3, 2, 5, 2
-3`
+3`;
 
 export default function PageReplacementLayout({
                                                 timeWindows,
@@ -20,21 +19,20 @@ export default function PageReplacementLayout({
                                               }) {
   const { site } = useStaticQuery(
     graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-          }
+        query {
+            site {
+                siteMetadata {
+                    title
+                    description
+                    author
+                }
+            }
         }
-      }
     `
-  )
+  );
   return (
-    <div className="bg-etour-bg-gray">
+    <Layout>
       <SEO title={title} />
-      <Header siteTitle={site.siteMetadata.title} />
       <div className="container mx-auto px-5 md:px-0">
         <h1 className="text-2xl md:text-4xl bold mb-10">Operating Systems Page
           Replacement Algorithms</h1>
@@ -78,13 +76,13 @@ export default function PageReplacementLayout({
         <div
           className="md:w-1/2 mt-5 bg-gray-200 rounded-lg grid grid-cols-1 items-center content-center text-center text-xl h-32">
           <span>Page Faults</span>
-          <span className="text-4xl bold">{pageFaults === 0 ? "..." : pageFaults}</span>
+          <span
+            className="text-4xl bold">{pageFaults === 0 ? "..." : pageFaults}</span>
         </div>
 
       </div>
-      <Footer />
-    </div>
-  )
+    </Layout>
+  );
 }
 
 function MemoryViewComponent({ timeWindows }: { timeWindows: MemoryStatus[] }) {
@@ -92,11 +90,11 @@ function MemoryViewComponent({ timeWindows }: { timeWindows: MemoryStatus[] }) {
     <div className="grid grid-flow-col gap-5">
       {
         timeWindows.map((memoryStatus, i) => {
-          return <div key={i}><MemorySlots memoryStatus={memoryStatus} /></div>
+          return <div key={i}><MemorySlots memoryStatus={memoryStatus} /></div>;
         })
       }
     </div>
-  )
+  );
 }
 
 function MemorySlots({ memoryStatus }) {
@@ -114,11 +112,12 @@ function MemorySlots({ memoryStatus }) {
             <span
               className="absolute left-0 top-0 opacity-50">{memoryStatus.useBits[i]}</span>
             {
-              i === memoryStatus.pointer && <FaArrowRight className="absolute right-full top-6" />
+              i === memoryStatus.pointer &&
+              <FaArrowRight className="absolute right-full top-6" />
             }
             {page ?? <span className="text-gray-200">-1</span>}
           </li>
       )}
     </ul>
-  )
+  );
 }
