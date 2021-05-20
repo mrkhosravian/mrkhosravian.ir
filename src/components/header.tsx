@@ -80,7 +80,7 @@ const Header = ({ siteTitle }) => {
                   <li className="nav-item">
                     <Link
                       className="md:px-3 py-2 flex items-center uppercase font-bold leading-snug hover:opacity-75"
-                      to="#soon">
+                      to="/profile">
                       Profile
                     </Link>
                   </li>
