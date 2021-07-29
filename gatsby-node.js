@@ -1,12 +1,22 @@
 const path = require(`path`)
+let gatsbyNodeModules = require('fs').realpathSync('node_modules/gatsby')
+gatsbyNodeModules = require('path').resolve(gatsbyNodeModules, '..')
 const { createFilePath } = require(`gatsby-source-filesystem`)
 const axios = require("axios")
 
 
-exports.onPreInit = async () => {
-  await axios.get("http://mhdarabi.ir/mamad_jakesh_hastam/some.json")
-    .then(res => console.log(JSON.stringify(res.data, null, 4)))
-    .catch(err => console.log(JSON.stringify(err, null, 4)))
+
+exports.onCreateWebpackConfig = ({ stage, actions }) => {
+
+  actions.setWebpackConfig({
+    resolve: {
+      modules: [gatsbyNodeModules, 'node_modules'],
+      fallback: {
+        "querystring": require.resolve("querystring-es3")
+      }
+    },
+  })
+
 }
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
