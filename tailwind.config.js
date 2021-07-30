@@ -8,6 +8,7 @@ module.exports = {
     'src/pages/**/*.tsx',
     'src/components/**/*.tsx',
     'src/templates/**/*.tsx',
+    'src/posts/**/*.mdx',
   ],
   theme: {
     extend: {

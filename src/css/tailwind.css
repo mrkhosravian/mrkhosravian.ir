@@ -15,8 +15,8 @@ footer {
     width: 100%;
 }
 
-.single-post > ul {
-    @apply my-5 mx-auto list-disc list-inside;
+.single-post ul {
+    @apply list-disc;
 }
 
 .single-post > p,
@@ -28,18 +28,39 @@ footer {
 .single-post > h6,
 .single-post > table,
 .single-post > blockquote,
-.single-post > ul {
-    @apply max-w-3xl mx-auto;
+/*.single-post > ul {*/
+/*    @apply max-w-3xl mx-auto;*/
+/*}*/
+
+/*.single-post p,*/
+/*.single-post p > * {*/
+/*    @apply my-10 mx-auto;*/
+/*}*/
+
+/*.single-post > div {*/
+/*    @apply my-16;*/
+/*}*/
+
+.single-post table {
+    @apply w-full
 }
 
-.single-post p,
-.single-post p > * {
-    @apply my-10 mx-auto;
+.single-post table td,.single-post table th {
+    @apply p-4
 }
 
-.single-post > div {
-    @apply my-16;
+.single-post table th {
+    @apply bg-gray-400
 }
+
+.single-post table tr:nth-child(odd) {
+    @apply bg-gray-200
+}
+
+.single-post table tr:nth-child(even) {
+    @apply bg-gray-300
+}
+
 
 .single-post a {
     @apply underline font-semibold;
