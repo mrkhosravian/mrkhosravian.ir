@@ -1,6 +1,6 @@
 require("dotenv").config({
-  path: `.env.${process.env.NODE_ENV}`,
-})
+  path: `.env.${process.env.NODE_ENV}`
+});
 
 module.exports = {
   siteMetadata: {
@@ -8,9 +8,9 @@ module.exports = {
     titleTemplate: "%s · MRKhosravian",
     description: `Mohammad Reza Khosravian personal site.`,
     author: `Mohammad Reza Khosravian`,
-    url:  process.env.CURRENT_DOMAIN || `https://www.mrkhosravian.ir`,
+    url: process.env.CURRENT_DOMAIN || `https://www.mrkhosravian.ir`,
     image: `/images/icon.png`,
-    twitterUsername: "@mrkhosravian_ir",
+    twitterUsername: "@mrkhosravian_ir"
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -18,15 +18,15 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `images`,
-        path: `${__dirname}/src/images`,
-      },
+        path: `${__dirname}/src/images`
+      }
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
         name: `src`,
-        path: `${__dirname}/src/`,
-      },
+        path: `${__dirname}/src/`
+      }
     },
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
@@ -40,8 +40,16 @@ module.exports = {
         background_color: `#212121`,
         theme_color: `#212121`,
         display: `minimal-ui`,
-        icon: `src/images/icon.png`, // This path is relative to the root of the site.
-      },
+        description: `Mohammad Reza Khosravian personal website`,
+        icon: `src/images/icon.png` // This path is relative to the root of the site.
+      }
+    },
+    // this (optional) plugin enables Progressive Web App + Offline functionality
+    // To learn more, visit: https://gatsby.dev/offline
+    {
+      resolve: `gatsby-plugin-offline`, options: {
+        precachePages: [`/`]
+      }
     },
     `gatsby-plugin-postcss`,
     {
@@ -54,8 +62,8 @@ module.exports = {
               // It's important to specify the maxWidth (in pixels) of
               // the content container as this plugin uses this as the
               // base for generating different widths of each image.
-              maxWidth: 768,
-            },
+              maxWidth: 768
+            }
           },
           {
             resolve: `gatsby-remark-prismjs`,
@@ -100,30 +108,30 @@ module.exports = {
                   language: "superscript",
                   extend: "javascript",
                   definition: {
-                    superscript_types: /(SuperType)/,
+                    superscript_types: /(SuperType)/
                   },
                   insertBefore: {
                     function: {
-                      superscript_keywords: /(superif|superelse)/,
-                    },
-                  },
-                },
+                      superscript_keywords: /(superif|superelse)/
+                    }
+                  }
+                }
               ],
               // Customize the prompt used in shell output
               // Values below are default
               prompt: {
                 user: "root",
                 host: "localhost",
-                global: false,
+                global: false
               },
               // By default the HTML entities <>&'" are escaped.
               // Add additional HTML escapes by providing a mapping
               // of HTML entities and their escape value IE: { '}': '&#123;' }
-              escapeEntities: {},
-            },
-          },
-        ],
-      },
+              escapeEntities: {}
+            }
+          }
+        ]
+      }
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
@@ -151,14 +159,11 @@ module.exports = {
         // Any additional optional fields
         // sampleRate: 5,
         // siteSpeedSampleRate: 10,
-        cookieDomain: "mrkhosravian.ir",
-      },
-    },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    `gatsby-plugin-offline`,
-  ],
-}
+        cookieDomain: "mrkhosravian.ir"
+      }
+    }
+  ]
+};
 
 /**
  * Configure your Gatsby site with this file.
