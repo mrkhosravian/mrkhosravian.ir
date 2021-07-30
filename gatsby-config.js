@@ -4,9 +4,13 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: `MR Khosravian`,
-    description: `Mohammad Reza Khosravian personal blog`,
-    author: `mohammad reza khosravian`,
+    title: `MR Khosravian personal site`,
+    titleTemplate: "%s · MRKhosravian",
+    description: `Mohammad Reza Khosravian personal site.`,
+    author: `Mohammad Reza Khosravian`,
+    url:  process.env.CURRENT_DOMAIN || `https://www.mrkhosravian.ir`,
+    image: `/images/icon.png`,
+    twitterUsername: "@mrkhosravian_ir",
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
