@@ -6,13 +6,15 @@ import SEO from "../components/seo";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
 export default function BlogPost({ data }) {
-  console.log(data);
   const post = data.mdx;
-  let featuredImgFluid = post.frontmatter.featuredImage.childImageSharp.gatsbyImageData;
+  let featuredImgFluid = post.frontmatter.featuredImage.banner.gatsbyImageData;
+  console.log(post);
   return (
     <Layout>
       <SEO title={post.frontmatter.title}
-           description={post.frontmatter.excerpt} />
+           description={post.frontmatter.description}
+           article={true}
+       image={post.frontmatter.featuredImage.seo.gatsbyImageData.images.fallback.src}/>
       <div>
         <div className="container mx-auto px-5 md:px-0 mt-10 mb-20">
           <h1
@@ -43,10 +45,14 @@ export const query = graphql`query ($slug: String!) {
         timeToRead
         frontmatter {
             title
+            description
             date(formatString: "YYYY-MMMM-DD HH:mm")
             featuredImage {
-                childImageSharp {
+                banner: childImageSharp {
                     gatsbyImageData(width: 800, layout: CONSTRAINED, height: 500)
+                }
+                seo: childImageSharp {
+                    gatsbyImageData(width: 150, layout: FIXED, height: 150)
                 }
             }
         }
