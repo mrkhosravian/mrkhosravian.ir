@@ -487,6 +487,7 @@ type Mdx implements Node {
     body: String!
     children: [Node!]!
     excerpt(pruneLength: Int = 140, truncate: Boolean = false): String!
+    fields: MdxFields
     fileAbsolutePath: String!
     frontmatter: MdxFrontmatter
     headings(depth: HeadingsMdx): [MdxHeadingMdx]
@@ -520,6 +521,10 @@ type MdxEdge {
     previous: Mdx
 }
 
+type MdxFields {
+    slug: String
+}
+
 type MdxFrontmatter {
     date(
         "Returns the difference between this date and the current time. Defaults to \"milliseconds\" but you can also pass in as the measurement \"years\", \"months\", \"weeks\", \"days\", \"hours\", \"minutes\", and \"seconds\"."
@@ -531,6 +536,7 @@ type MdxFrontmatter {
         "Configures the locale Moment.js will use to format the date."
         locale: String
     ): Date
+    description: String
     featuredImage: File
     title: String!
 }
@@ -578,11 +584,11 @@ type Query {
     directory(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, children: NodeFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): Directory
     file(absolutePath: StringQueryOperatorInput, accessTime: DateQueryOperatorInput, atime: DateQueryOperatorInput, atimeMs: FloatQueryOperatorInput, base: StringQueryOperatorInput, birthTime: DateQueryOperatorInput, birthtime: DateQueryOperatorInput, birthtimeMs: FloatQueryOperatorInput, blksize: IntQueryOperatorInput, blocks: IntQueryOperatorInput, changeTime: DateQueryOperatorInput, childImageSharp: ImageSharpFilterInput, childMdx: MdxFilterInput, children: NodeFilterListInput, childrenImageSharp: ImageSharpFilterListInput, childrenMdx: MdxFilterListInput, ctime: DateQueryOperatorInput, ctimeMs: FloatQueryOperatorInput, dev: IntQueryOperatorInput, dir: StringQueryOperatorInput, ext: StringQueryOperatorInput, extension: StringQueryOperatorInput, gid: IntQueryOperatorInput, id: StringQueryOperatorInput, ino: FloatQueryOperatorInput, internal: InternalFilterInput, mode: IntQueryOperatorInput, modifiedTime: DateQueryOperatorInput, mtime: DateQueryOperatorInput, mtimeMs: FloatQueryOperatorInput, name: StringQueryOperatorInput, nlink: IntQueryOperatorInput, parent: NodeFilterInput, prettySize: StringQueryOperatorInput, publicURL: StringQueryOperatorInput, rdev: IntQueryOperatorInput, relativeDirectory: StringQueryOperatorInput, relativePath: StringQueryOperatorInput, root: StringQueryOperatorInput, size: IntQueryOperatorInput, sourceInstanceName: StringQueryOperatorInput, uid: IntQueryOperatorInput): File
     imageSharp(children: NodeFilterListInput, fixed: ImageSharpFixedFilterInput, fluid: ImageSharpFluidFilterInput, gatsbyImageData: JSONQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, original: ImageSharpOriginalFilterInput, parent: NodeFilterInput, resize: ImageSharpResizeFilterInput): ImageSharp
-    mdx(body: StringQueryOperatorInput, children: NodeFilterListInput, excerpt: StringQueryOperatorInput, fileAbsolutePath: StringQueryOperatorInput, frontmatter: MdxFrontmatterFilterInput, headings: MdxHeadingMdxFilterListInput, html: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, mdxAST: JSONQueryOperatorInput, parent: NodeFilterInput, rawBody: StringQueryOperatorInput, slug: StringQueryOperatorInput, tableOfContents: JSONQueryOperatorInput, timeToRead: IntQueryOperatorInput, wordCount: MdxWordCountFilterInput): Mdx
-    site(buildTime: DateQueryOperatorInput, children: NodeFilterListInput, host: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, pathPrefix: StringQueryOperatorInput, polyfill: BooleanQueryOperatorInput, port: IntQueryOperatorInput, siteMetadata: SiteSiteMetadataFilterInput): Site
+    mdx(body: StringQueryOperatorInput, children: NodeFilterListInput, excerpt: StringQueryOperatorInput, fields: MdxFieldsFilterInput, fileAbsolutePath: StringQueryOperatorInput, frontmatter: MdxFrontmatterFilterInput, headings: MdxHeadingMdxFilterListInput, html: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, mdxAST: JSONQueryOperatorInput, parent: NodeFilterInput, rawBody: StringQueryOperatorInput, slug: StringQueryOperatorInput, tableOfContents: JSONQueryOperatorInput, timeToRead: IntQueryOperatorInput, wordCount: MdxWordCountFilterInput): Mdx
+    site(buildTime: DateQueryOperatorInput, children: NodeFilterListInput, host: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput, port: IntQueryOperatorInput, siteMetadata: SiteSiteMetadataFilterInput): Site
     siteBuildMetadata(buildTime: DateQueryOperatorInput, children: NodeFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, parent: NodeFilterInput): SiteBuildMetadata
     siteFunction(absoluteCompiledFilePath: StringQueryOperatorInput, children: NodeFilterListInput, functionRoute: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, matchPath: StringQueryOperatorInput, originalAbsoluteFilePath: StringQueryOperatorInput, originalRelativeFilePath: StringQueryOperatorInput, parent: NodeFilterInput, pluginName: StringQueryOperatorInput, relativeCompiledFilePath: StringQueryOperatorInput): SiteFunction
-    sitePage(children: NodeFilterListInput, component: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, id: StringQueryOperatorInput, internal: InternalFilterInput, internalComponentName: StringQueryOperatorInput, isCreatedByStatefulCreatePages: BooleanQueryOperatorInput, matchPath: StringQueryOperatorInput, parent: NodeFilterInput, path: StringQueryOperatorInput, pluginCreator: SitePluginFilterInput, pluginCreatorId: StringQueryOperatorInput): SitePage
+    sitePage(children: NodeFilterListInput, component: StringQueryOperatorInput, componentChunkName: StringQueryOperatorInput, context: SitePageContextFilterInput, id: StringQueryOperatorInput, internal: InternalFilterInput, internalComponentName: StringQueryOperatorInput, isCreatedByStatefulCreatePages: BooleanQueryOperatorInput, matchPath: StringQueryOperatorInput, parent: NodeFilterInput, path: StringQueryOperatorInput, pluginCreator: SitePluginFilterInput, pluginCreatorId: StringQueryOperatorInput): SitePage
     sitePlugin(browserAPIs: StringQueryOperatorInput, children: NodeFilterListInput, id: StringQueryOperatorInput, internal: InternalFilterInput, name: StringQueryOperatorInput, nodeAPIs: StringQueryOperatorInput, packageJson: SitePluginPackageJsonFilterInput, parent: NodeFilterInput, pluginFilepath: StringQueryOperatorInput, pluginOptions: SitePluginPluginOptionsFilterInput, resolve: StringQueryOperatorInput, ssrAPIs: StringQueryOperatorInput, version: StringQueryOperatorInput): SitePlugin
 }
 
@@ -602,8 +608,6 @@ type Site implements Node {
     id: ID!
     internal: Internal!
     parent: Node
-    pathPrefix: String
-    polyfill: Boolean
     port: Int
     siteMetadata: SiteSiteMetadata
 }
@@ -724,6 +728,7 @@ type SitePage implements Node {
     children: [Node!]!
     component: String!
     componentChunkName: String!
+    context: SitePageContext
     id: ID!
     internal: Internal!
     internalComponentName: String!
@@ -745,6 +750,10 @@ type SitePageConnection {
     pageInfo: PageInfo!
     sum(field: SitePageFieldsEnum!): Float
     totalCount: Int!
+}
+
+type SitePageContext {
+    slug: String
 }
 
 type SitePageEdge {
@@ -899,7 +908,11 @@ type SitePluginPluginOptionsGatsbyRemarkPluginsOptionsPrompt {
 type SiteSiteMetadata {
     author: String
     description: String
+    image: String
     title: String
+    titleTemplate: String
+    twitterUsername: String
+    url: String
 }
 
 enum DirectoryFieldsEnum {
@@ -1123,8 +1136,10 @@ enum FileFieldsEnum {
     childMdx___children___parent___children @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     childMdx___children___parent___id @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     childMdx___excerpt @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
+    childMdx___fields___slug @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     childMdx___fileAbsolutePath
     childMdx___frontmatter___date
+    childMdx___frontmatter___description
     childMdx___frontmatter___featuredImage___absolutePath
     childMdx___frontmatter___featuredImage___accessTime
     childMdx___frontmatter___featuredImage___atime
@@ -1289,8 +1304,10 @@ enum FileFieldsEnum {
     childrenMdx___children___parent___children @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     childrenMdx___children___parent___id @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     childrenMdx___excerpt @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
+    childrenMdx___fields___slug @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     childrenMdx___fileAbsolutePath
     childrenMdx___frontmatter___date
+    childrenMdx___frontmatter___description
     childrenMdx___frontmatter___featuredImage___absolutePath
     childrenMdx___frontmatter___featuredImage___accessTime
     childrenMdx___frontmatter___featuredImage___atime
@@ -1691,8 +1708,10 @@ enum MdxFieldsEnum {
     children___parent___parent___children @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     children___parent___parent___id @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     excerpt @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
+    fields___slug @deprecated(reason : "Sorting on fields that need arguments to resolve is deprecated.")
     fileAbsolutePath
     frontmatter___date
+    frontmatter___description
     frontmatter___featuredImage___absolutePath
     frontmatter___featuredImage___accessTime
     frontmatter___featuredImage___atime
@@ -2023,12 +2042,14 @@ enum SiteFieldsEnum {
     parent___parent___internal___type
     parent___parent___parent___children
     parent___parent___parent___id
-    pathPrefix
-    polyfill
     port
     siteMetadata___author
     siteMetadata___description
+    siteMetadata___image
     siteMetadata___title
+    siteMetadata___titleTemplate
+    siteMetadata___twitterUsername
+    siteMetadata___url
 }
 
 enum SiteFunctionFieldsEnum {
@@ -2169,6 +2190,7 @@ enum SitePageFieldsEnum {
     children___parent___parent___id
     component
     componentChunkName
+    context___slug
     id
     internalComponentName
     internal___content
@@ -2721,10 +2743,15 @@ input JSONQueryOperatorInput {
     regex: JSON
 }
 
+input MdxFieldsFilterInput {
+    slug: StringQueryOperatorInput
+}
+
 input MdxFilterInput {
     body: StringQueryOperatorInput
     children: NodeFilterListInput
     excerpt: StringQueryOperatorInput
+    fields: MdxFieldsFilterInput
     fileAbsolutePath: StringQueryOperatorInput
     frontmatter: MdxFrontmatterFilterInput
     headings: MdxHeadingMdxFilterListInput
@@ -2746,6 +2773,7 @@ input MdxFilterListInput {
 
 input MdxFrontmatterFilterInput {
     date: DateQueryOperatorInput
+    description: StringQueryOperatorInput
     featuredImage: FileFilterInput
     title: StringQueryOperatorInput
 }
@@ -2818,8 +2846,6 @@ input SiteFilterInput {
     id: StringQueryOperatorInput
     internal: InternalFilterInput
     parent: NodeFilterInput
-    pathPrefix: StringQueryOperatorInput
-    polyfill: BooleanQueryOperatorInput
     port: IntQueryOperatorInput
     siteMetadata: SiteSiteMetadataFilterInput
 }
@@ -2843,10 +2869,15 @@ input SiteFunctionSortInput {
     order: [SortOrderEnum] = [ASC]
 }
 
+input SitePageContextFilterInput {
+    slug: StringQueryOperatorInput
+}
+
 input SitePageFilterInput {
     children: NodeFilterListInput
     component: StringQueryOperatorInput
     componentChunkName: StringQueryOperatorInput
+    context: SitePageContextFilterInput
     id: StringQueryOperatorInput
     internal: InternalFilterInput
     internalComponentName: StringQueryOperatorInput
@@ -2998,7 +3029,11 @@ input SitePluginSortInput {
 input SiteSiteMetadataFilterInput {
     author: StringQueryOperatorInput
     description: StringQueryOperatorInput
+    image: StringQueryOperatorInput
     title: StringQueryOperatorInput
+    titleTemplate: StringQueryOperatorInput
+    twitterUsername: StringQueryOperatorInput
+    url: StringQueryOperatorInput
 }
 
 input SiteSortInput {
