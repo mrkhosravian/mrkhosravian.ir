@@ -27,7 +27,7 @@ export default function IndexPage({ data }) {
                     alt={node.frontmatter.title}
                     image={featuredImgFluid}
                     objectFit={"cover"}
-                    className="w-full h-full bg-red-500 transition duration-300 transform group-hover:scale-150" />
+                    className="w-full h-full transition duration-300 transform group-hover:scale-150" />
                   <Waves index={index % 3 + 1}/>
                 </div>
               </Link>
