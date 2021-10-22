@@ -1,12 +1,37 @@
-import { Link } from "gatsby"
-import * as React from "react"
-import { useState } from "react"
-import Logo from "./logo"
+import { graphql, Link, useStaticQuery } from "gatsby";
+import * as React from "react";
+import { useState } from "react";
+import Logo from "./logo";
 
 const Header = ({ siteTitle }) => {
 
-  const [appsShow, setAppsShow] = useState(false)
-  const [menuShow, setMenuShow] = useState(false)
+  const [appsShow, setAppsShow] = useState(false);
+  const [menuShow, setMenuShow] = useState(false);
+
+  const data = useStaticQuery(graphql`
+      query GetMenus {
+        main: wpMenu(locations: {eq: PRIMARY}) {
+          menuItems {
+            nodes {
+              id
+              label
+              url
+            }
+          }
+        }
+        
+        apps: wpMenu(locations: {eq: FOOTER}) {
+          menuItems {
+            nodes {
+              id
+              label
+              url
+              title
+            }
+          }
+        }
+      }
+  `);
 
   return (
     <header className="py-10">
@@ -24,12 +49,13 @@ const Header = ({ siteTitle }) => {
                   className={`${!appsShow && "hidden"} absolute right-0 top-full bg-white w-64 h-64 z-50 shadow-2xl rounded-lg p-5`}
                   style={{ transform: "translate(-0.75rem, 0.75rem)" }}>
                   <div className="grid grid-cols-3 gap-5">
-                    <Link to="/os" title={"Operating Systems Algorithms"}
-                          className="w-16 h-16 bg-gray-200 rounded-lg flex justify-center items-center hover:shadow-lg">OS
-                    </Link>
-                    <Link to="/graph" title={"Graph Drawing Toll"}
-                          className="w-16 h-16 bg-gray-200 rounded-lg flex justify-center items-center hover:shadow-lg">GRAPH
-                    </Link>
+                    {data.apps.menuItems.nodes.map(menuItem => {
+                      return (
+                        <Link to={menuItem.url} title={menuItem.title}
+                              className="w-16 h-16 bg-gray-200 rounded-lg flex justify-center items-center hover:shadow-lg">{menuItem.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -45,14 +71,14 @@ const Header = ({ siteTitle }) => {
                   <button
                     className="block lg:hidden outline-none focus:outline-none"
                     onClick={() => {
-                    setAppsShow(it => !it)
-                    setMenuShow(false)
-                  }}>
+                      setAppsShow(it => !it);
+                      setMenuShow(false);
+                    }}>
                     <AppsIcon />
                   </button>
                   <button onClick={() => {
-                    setMenuShow(it => !it)
-                    setAppsShow(false)
+                    setMenuShow(it => !it);
+                    setAppsShow(false);
                   }}
                           className="cursor-pointer text-xl leading-none px-3 py-1 ml-5 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none"
                           type="button">
@@ -70,20 +96,19 @@ const Header = ({ siteTitle }) => {
                 id="example-navbar-info">
                 <ul
                   className="flex flex-col lg:flex-row list-none ml-auto md:items-center">
-                  <li className="nav-item">
-                    <Link
-                      className="md:px-3 py-2 flex items-center uppercase font-bold leading-snug hover:opacity-75"
-                      to="/">
-                      Home
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link
-                      className="md:px-3 py-2 flex items-center uppercase font-bold leading-snug hover:opacity-75"
-                      to="/profile">
-                      Profile
-                    </Link>
-                  </li>
+                  {
+                    data.main.menuItems.nodes.map(menuItem => {
+                      return (
+                        <li className="nav-item" key={menuItem.id}>
+                          <Link
+                            className="md:px-3 py-2 flex items-center uppercase font-bold leading-snug hover:opacity-75"
+                            to={menuItem.url}>
+                            {menuItem.label}
+                          </Link>
+                        </li>
+                      );
+                    })
+                  }
                   <li className="nav-item hidden md:block">
                     <div
                       className="md:px-3 py-2 uppercase font-bold leading-snug">
@@ -100,8 +125,8 @@ const Header = ({ siteTitle }) => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
 function AppsIcon() {
   return <svg className="block w-6" xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +134,7 @@ function AppsIcon() {
               stroke="currentColor">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
           d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-  </svg>
+  </svg>;
 }
 
-export default Header
+export default Header;
