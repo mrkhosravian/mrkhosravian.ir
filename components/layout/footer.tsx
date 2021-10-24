@@ -1,8 +1,5 @@
 import { FC } from "react";
 
-interface LayoutProps {
-}
-
 const Footer: FC = () => {
   return (
     <div className={"border-t border-gray-200 absolute bottom-0 left-0 w-full"}>
