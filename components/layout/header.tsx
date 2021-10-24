@@ -4,11 +4,11 @@ import HorizontalMenu from "../menus/horizontal-menu";
 const Header: FC = () => {
   return (
     <div
-      className={"py-5 border border-b-2 border-gray-400"}>
-      <div className="container mx-auto flex justify-between">
-        logo
+      className={"py-3 border border-b-1 border-gray-300"}>
+      <div className="max-w-5xl mx-auto flex justify-between">
+        <h1 className={"w-64 font-bold"}>Mohammad Reza Khosravian</h1>
         <HorizontalMenu />
-        link
+        <a className={"w-64 text-right"} href="#">Contact</a>
       </div>
     </div>
   );
