@@ -1,0 +1,7 @@
+.avatar-shadows {
+    box-shadow: #ffe9ce 135px -46px 0 -81px, rgb(250 189 37) 25px 89px 0 -22px, rgb(249 132 94) -41px -3px 0 30px
+}
+
+.text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-red-400
+}

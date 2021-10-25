@@ -1,4 +1,5 @@
 @import "cursor.css";
+@import "backgrounds.css";
 
 @tailwind base;
 @tailwind components;
