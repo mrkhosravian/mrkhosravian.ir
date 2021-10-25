@@ -7,8 +7,8 @@ const Cursor: FC = () => {
   useEffect(() => {
     window.addEventListener("mousemove", (e) => {
       if (cursor.current) {
-        cursor.current.style.top = e.pageY + "px";
-        cursor.current.style.left = e.pageX + "px";
+        cursor.current.style.top = e.clientY + "px";
+        cursor.current.style.left = e.clientX + "px";
       }
     });
 
