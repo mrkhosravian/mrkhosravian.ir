@@ -8,7 +8,7 @@ interface LayoutProps {
 
 const Layout: FC<PropsWithChildren<LayoutProps>> = (props) => {
   return (
-    <div className={"relative min-h-full"}>
+    <div className={"relative min-h-full w-full float-left"}>
       <Header />
       {props.children}
       <Footer />
