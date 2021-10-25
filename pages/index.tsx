@@ -7,7 +7,7 @@ const Home: NextPage = () => {
   return (
     <Layout>
 
-      <div className="max-w-5xl mx-auto h-screen">
+      <section className="max-w-5xl mx-auto h-screen min-h-[700px]">
         <div className="flex justify-between h-full items-center">
 
           <div
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
           </div>
 
         </div>
-      </div>
+      </section>
 
     </Layout>
   );
