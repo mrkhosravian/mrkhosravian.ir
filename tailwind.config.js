@@ -1,26 +1,15 @@
 module.exports = {
   mode: 'jit',
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
   purge: [
-    'src/pages/**/*.tsx',
-    'src/components/**/*.tsx',
-    'src/templates/**/*.tsx',
-    'src/posts/**/*.mdx',
+    "./pages/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}"
   ],
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
-    extend: {
-      colors: {
-        'mr-bg-gray': '#F5F5F7',
-        'mr-gray': '#222832',
-      }
-    },
+    extend: {},
   },
   variants: {
-    scale: ['responsive', 'hover', 'focus', 'group-hover'],
-    borderWidth: ['responsive', 'last', 'hover', 'focus'],
+    extend: {},
   },
   plugins: [],
-};
+}

@@ -1,0 +1,7 @@
+.cursor {
+    @apply w-6 h-6 rounded-full fixed pointer-events-none
+    transform -translate-x-1/2 -translate-y-1/2 duration-300;
+    transition: transform 100ms ease-in-out,
+    background-color 100ms ease-in-out,
+    opacity 100ms ease-in-out;
+}

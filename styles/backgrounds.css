@@ -1,0 +1,15 @@
+.avatar-shadows {
+    box-shadow: #ffe9ce 135px -46px 0 -81px, rgb(250 189 37) 25px 89px 0 -22px, rgb(249 132 94) -41px -3px 0 30px
+}
+
+.blog-shadows-right {
+    box-shadow: #ffe9ce 135px -46px 0 -81px, rgb(250 189 37) 25px 89px 0 -22px, rgb(249 132 94) 45px -3px 0 30px
+}
+
+.blog-shadows-left {
+    box-shadow: #ffe9ce -87px -44px 0 -85px, rgb(250 189 37) 31px 37px 0 -25px, rgb(249 132 94) -15px -3px 0 12px
+}
+
+.text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-red-400
+}
