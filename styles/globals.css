@@ -1,13 +1,27 @@
 @import "cursor.css";
 @import "backgrounds.css";
+@import "fontiran.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    html {
+    * {
         cursor: none;
+    }
+
+    html {
+        font-family: system-ui,
+        -apple-system, /* Firefox supports this but not yet `system-ui` */
+        "IRANYekan",
+        'Segoe UI',
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif,
+        'Apple Color Emoji',
+        'Segoe UI Emoji';
     }
 
     html,
