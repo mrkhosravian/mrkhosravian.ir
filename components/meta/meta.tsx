@@ -46,10 +46,6 @@ const Meta = (props: MetaParams) => (
       props.canonical &&
       <link rel="canonical" href={`${props.canonical}`} />
     }
-    {
-      props.js &&
-      <script type="text/javascript" src={`${props.js}`} />
-    }
   </Head>
 );
 export default Meta;
