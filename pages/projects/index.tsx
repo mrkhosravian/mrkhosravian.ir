@@ -5,6 +5,7 @@ import { getAllProjectsByLocale } from "../../lib/api/projects";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import Meta from "../../components/meta/meta";
 
 interface ProjectsPageInterface {
   projects: any;
@@ -15,6 +16,9 @@ const ProjectsPage: NextPage<ProjectsPageInterface> = (props) => {
   const projects = props.projects.nodes;
   return (
     <Layout>
+
+      <Meta title={t("title")} />
+
       <div className="max-w-5xl mx-auto py-20 px-5 md:px-0">
         <h2
           className={"text-4xl md:text-6xl leading-tight text-gradient mb-8 md:mb-10 py-3 md:py-10"}>

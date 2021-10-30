@@ -8,6 +8,7 @@ import { useTranslation } from "next-i18next";
 import Arrow from "../../components/icons/arrow";
 import moment from "moment-jalaali";
 import { useRouter } from "next/router";
+import Meta from "../../components/meta/meta";
 
 interface SingleBlogPostInterface {
   post: any;
@@ -22,6 +23,9 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
   const post = props.post.post;
   return (
     <Layout>
+
+      <Meta title={post.title} />
+
       <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10">
         <main className="mt-10 lg:mt-20 space-y-6">
           <article className="lg:grid lg:grid-cols-12 gap-x-10">
@@ -60,7 +64,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
                 dangerouslySetInnerHTML={{
                   __html: post.content
                 }}
-                className="space-y-4 lg:text-lg leading-loose" />
+                className="space-y-4 lg:text-lg leading-loose single-post"/>
             </div>
 
             <section className="col-span-8 col-start-5 mt-10 space-y-6">

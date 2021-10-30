@@ -6,6 +6,7 @@ import Link from "next/link";
 import Card1 from "../../components/cards/card1";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
+import Meta from "../../components/meta/meta";
 
 interface BlogPageInterface {
   posts: any;
@@ -16,6 +17,9 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
   const posts = props.posts.nodes;
   return (
     <Layout>
+
+      <Meta title={t('title')} />
+
       <div className="max-w-5xl mx-auto py-20 px-5 xl:px-0">
         <h2
           className={"text-4xl md:text-6xl py-5 text-gradient mb-10"}>

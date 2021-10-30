@@ -2,6 +2,7 @@
 @import "backgrounds.css";
 @import "fontiran.css";
 @import "404.css";
+@import "wordpress-base.css";
 
 @tailwind base;
 @tailwind components;

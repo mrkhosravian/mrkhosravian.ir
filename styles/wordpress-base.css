@@ -1,0 +1,102 @@
+.single-post > ul {
+    @apply my-5 mx-auto list-disc list-inside;
+}
+
+/*.single-post > p,*/
+/*.single-post > h1,*/
+/*.single-post > h2,*/
+/*.single-post > h3,*/
+/*.single-post > h4,*/
+/*.single-post > h5,*/
+/*.single-post > h6,*/
+/*.single-post > table,*/
+/*.single-post > blockquote,*/
+/*.single-post > figure,*/
+/*.single-post > ul {*/
+/*    @apply max-w-3xl mx-auto;*/
+/*}*/
+
+.single-post p,
+.single-post p > * {
+    @apply my-10 mx-auto;
+}
+
+.single-post > div {
+    @apply my-16;
+}
+
+.single-post a {
+    @apply underline font-semibold;
+}
+
+.single-post img {
+    @apply w-full rounded;
+}
+
+.single-post > ol {
+    @apply my-5 mx-auto list-decimal list-inside;
+}
+
+.single-post blockquote {
+    @apply border-l-8 pl-10 mx-auto my-10 font-light text-gray-900 text-opacity-75;
+}
+
+.single-post hr {
+    @apply my-10;
+}
+
+.single-post h1 {
+    @apply my-10 text-4xl font-bold mx-auto;
+}
+
+.single-post h2 {
+    @apply my-10 text-4xl mx-auto;
+}
+
+.single-post h3 {
+    @apply my-10 text-3xl mx-auto;
+}
+
+.single-post h4 {
+    @apply my-10 text-2xl mx-auto;
+}
+
+.single-post h5 {
+    @apply my-10 text-xl mx-auto;
+}
+
+.single-post h6 {
+    @apply my-10 text-xl mx-auto;
+}
+
+
+/* Wordpress block gallery */
+
+.single-post .wp-block-gallery {
+
+}
+
+.single-post .wp-block-gallery.columns-3 .blocks-gallery-grid{
+    @apply gap-5
+}
+.single-post .wp-block-gallery.columns-3 .blocks-gallery-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+}
+
+/* Wordpress block table */
+
+.single-post .wp-block-table table {
+    @apply w-full
+}
+
+.single-post .wp-block-table thead {
+    @apply border-b-2 border-gray-800 dark:border-gray-200 text-left;
+}
+
+.single-post .wp-block-table tbody tr td,.single-post .wp-block-table thead tr th {
+    @apply py-5 px-5
+}
+
+.single-post .wp-block-table.is-style-stripes tbody tr:nth-child(even) {
+    @apply bg-gray-200 dark:bg-gray-900;
+}
