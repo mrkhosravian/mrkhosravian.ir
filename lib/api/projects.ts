@@ -3,8 +3,8 @@ import { fetchAPI } from "./api";
 export async function getAllProjects(preview: boolean = false) {
   const data = await fetchAPI(
     `
-    query AllProjects($lang: LanguageCodeFilterEnum) {
-      projects(where: {language: $lang}) {
+    query AllProjects {
+      projects {
         nodes {
           id
           title
