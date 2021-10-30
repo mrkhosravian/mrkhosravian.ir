@@ -3,16 +3,26 @@ import Layout from "../../components/layout";
 import { getPost } from "../../lib/api/blog";
 import Image from "next/image";
 import Link from "next/link";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import Arrow from "../../components/icons/arrow";
+import moment from "moment-jalaali";
+import { useRouter } from "next/router";
 
 interface SingleBlogPostInterface {
   post: any;
 }
 
 const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
+
+  const { t } = useTranslation();
+
+  const router = useRouter();
+
   const post = props.post.post;
   return (
     <Layout>
-      <div className="max-w-5xl mx-auto px-5 xl:px-0 py-10">
+      <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10">
         <main className="mt-10 lg:mt-20 space-y-6">
           <article className="lg:grid lg:grid-cols-12 gap-x-10">
             <div className="col-span-4 lg:text-center mb-10 relative">
@@ -22,12 +32,12 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
                 className={"rounded-xl"}
                 width={400}
                 height={400}
-                objectFit={'cover'}
+                objectFit={"cover"}
               />
 
               <p className="mt-4 block text-gray-400 text-xs">
-                Published
-                <time> {post.date}</time>
+                {t('Published')}:
+                <time> {moment(post.date).locale(router.locale!).fromNow()}</time>
               </p>
             </div>
 
@@ -36,20 +46,8 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
                 <Link href="/blog">
                   <a
                     className="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-yellow-500">
-                    <svg width="22" height="22" viewBox="0 0 22 22"
-                         className="mr-2">
-                      <g fill="none" fillRule="evenodd">
-                        <path stroke="#000" strokeOpacity=".012"
-                              strokeWidth=".5"
-                              d="M21 1v20.16H.84V1z">
-                        </path>
-                        <path className="fill-current"
-                              d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z">
-                        </path>
-                      </g>
-                    </svg>
-
-                    Back to Posts
+                    <Arrow />
+                    {t("Back to Posts")}
                   </a>
                 </Link>
               </div>
@@ -82,6 +80,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 export async function getServerSideProps(context: GetStaticPropsContext) {
   return {
     props: {
+      ...await serverSideTranslations(context.locale!, ["common"]),
       post: await getPost(context.params!.slug as string)
     }
   };

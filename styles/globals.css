@@ -1,6 +1,7 @@
 @import "cursor.css";
 @import "backgrounds.css";
 @import "fontiran.css";
+@import "404.css";
 
 @tailwind base;
 @tailwind components;
@@ -13,8 +14,7 @@
 
     html {
         font-family: system-ui,
-        -apple-system, /* Firefox supports this but not yet `system-ui` */
-        "IRANYekan",
+        -apple-system, /* Firefox supports this but not yet `system-ui` */ "IRANYekan",
         'Segoe UI',
         Roboto,
         Helvetica,
