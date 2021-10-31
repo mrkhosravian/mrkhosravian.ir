@@ -9,7 +9,7 @@
 @tailwind utilities;
 
 @layer base {
-    * {
+    *, button {
         cursor: none;
     }
 
