@@ -7,5 +7,6 @@ module.exports = {
   images: {
     domains: ["wp.mrkhosravian.ir"]
   },
-  i18n: i18n
+  i18n: i18n,
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx']
 };

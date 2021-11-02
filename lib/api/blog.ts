@@ -1,28 +1,8 @@
 import { fetchAPI } from "./api";
+import { postFilePaths } from "../mdxUtils";
 
-export async function getAllPosts(preview: boolean = false) {
-  const data = await fetchAPI(
-    `
-    query AllPosts {
-      posts(first: 20, where: {orderby: {field: DATE, order: DESC}}) {
-        nodes {
-          id
-          date
-          title
-          slug
-          excerpt
-          featuredImage {
-            node {
-              sourceUrl
-            }
-          }
-        }
-      }
-    }
-    `
-  );
-
-  return data?.posts;
+export async function getAllPosts(lange: "en"|"fa", preview: boolean = false) {
+  return postFilePaths(lange)
 }
 
 export async function getPost(slug: string) {

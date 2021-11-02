@@ -1,6 +1,7 @@
-import type { GetStaticPropsContext, NextPage } from "next";
+import type { NextPage } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import Layout from "../../components/layout";
-import { getPost } from "../../lib/api/blog";
+import { getAllPosts } from "../../lib/api/blog";
 import Image from "next/image";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
@@ -8,10 +9,14 @@ import { useTranslation } from "next-i18next";
 import Arrow from "../../components/icons/arrow";
 import moment from "moment-jalaali";
 import { useRouter } from "next/router";
+import { serialize } from "next-mdx-remote/serialize";
+import { MDXRemote } from "next-mdx-remote";
 import Meta from "../../components/meta/meta";
+import matter from "gray-matter";
 
 interface SingleBlogPostInterface {
-  post: any;
+  frontMatter: any;
+  source: any;
 }
 
 const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
@@ -20,19 +25,18 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
   const router = useRouter();
 
-  const post = props.post.post;
   return (
     <Layout>
 
-      <Meta title={post.title} />
+      <Meta title={props.frontMatter.title} />
 
       <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10">
         <main className="mt-10 lg:mt-20 space-y-6">
           <article className="lg:grid lg:grid-cols-12 gap-x-10">
             <div className="col-span-4 lg:text-center mb-10 relative">
               <Image
-                src={post.featuredImage?.node.sourceUrl || "/mohammad-reza-khosravian.png"}
-                alt={post.title}
+                src={props.frontMatter.image || "/mohammad-reza-khosravian.png"}
+                alt={props.frontMatter.title}
                 className={"rounded-xl"}
                 width={400}
                 height={400}
@@ -40,8 +44,8 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               />
 
               <p className="mt-4 block text-gray-400 text-xs">
-                {t('Published')}:
-                <time> {moment(post.date).locale(router.locale!).fromNow()}</time>
+                {t("Published")}:
+                <time> {moment(props.frontMatter.date).locale(router.locale!).fromNow()}</time>
               </p>
             </div>
 
@@ -57,14 +61,12 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               </div>
 
               <h1 className="font-bold text-3xl lg:text-4xl mb-10">
-                {post.title}
+                {props.frontMatter.title}
               </h1>
 
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: post.content
-                }}
-                className="space-y-4 lg:text-lg leading-loose single-post"/>
+              <div className="single-post">
+                <MDXRemote {...props.source} />
+              </div>
             </div>
 
             <section className="col-span-8 col-start-5 mt-10 space-y-6">
@@ -81,13 +83,41 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
   );
 };
 
-export async function getServerSideProps(context: GetStaticPropsContext) {
+export const getStaticProps: GetStaticProps = async (context) => {
+  const {
+    content,
+    data
+  } = matter.read(`${process.cwd()}/data/posts/fa/${context.params!.slug}.md`);
+  const mdxSource = await serialize(content, { scope: data });
+
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common"]),
-      post: await getPost(context.params!.slug as string)
+      source: mdxSource,
+      frontMatter: data
     }
   };
-}
+};
+
+export const getStaticPaths: GetStaticPaths = async (context) => {
+
+  const faPosts = await getAllPosts("fa");
+  const enPosts = await getAllPosts("en");
+
+  const paths = enPosts.map(slug => ({
+    params: { slug },
+    locale: "en"
+  }));
+
+  paths.push(...faPosts.map(slug => ({
+    params: { slug },
+    locale: "fa"
+  })));
+
+  return {
+    paths,
+    fallback: false
+  };
+};
 
 export default SingleBlogPost;

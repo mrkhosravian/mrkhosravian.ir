@@ -1,4 +1,4 @@
-import type { NextPage, NextPageContext } from "next";
+import type { GetStaticProps, NextPage } from "next";
 import Layout from "../../components/layout";
 import { getAllPosts } from "../../lib/api/blog";
 import Image from "next/image";
@@ -7,6 +7,9 @@ import Card1 from "../../components/cards/card1";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Meta from "../../components/meta/meta";
+import matter from "gray-matter";
+import moment from "moment-jalaali";
+import { useRouter } from "next/router";
 
 interface BlogPageInterface {
   posts: any;
@@ -14,11 +17,12 @@ interface BlogPageInterface {
 
 const BlogPage: NextPage<BlogPageInterface> = (props) => {
   const { t } = useTranslation(["blog"]);
-  const posts = props.posts.nodes;
+  const router = useRouter();
+  const { posts } = props;
   return (
     <Layout>
 
-      <Meta title={t('title')} />
+      <Meta title={t("title")} />
 
       <div className="max-w-5xl mx-auto py-20 px-5 xl:px-0">
         <h2
@@ -29,14 +33,14 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
           {
             posts.map((post: any) => {
               return (
-                <Card1 key={post.id}>
+                <Card1 key={post.slug}>
                   <article className={"flex flex-col md:flex-row items-center"}>
                     <Link href={`/blog/${post.slug}`}>
                       <a>
                         <figure
                           className={"blog-shadows-left flex overflow-hidden rounded-full mr-5 w-32 md:w-auto mb-8 md:mb-5 mt-5 md:ml-8 rtl:ml-16"}>
                           <Image
-                            src={post.featuredImage?.node.sourceUrl || "/mohammad-reza-khosravian.png"}
+                            src={post.image || "/mohammad-reza-khosravian.png"}
                             alt={post.title}
                             width={200}
                             height={200}
@@ -54,6 +58,10 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
                            dangerouslySetInnerHTML={{
                              __html: post.excerpt
                            }} />
+                      <p className="mt-4 block text-gray-400 text-xs">
+                        {t("common:Published")}:
+                        <time> {moment(post.date).locale(router.locale!).fromNow()}</time>
+                      </p>
                     </div>
                   </article>
                 </Card1>
@@ -66,13 +74,23 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
   );
 };
 
-export async function getServerSideProps(context: NextPageContext) {
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  let posts = await getAllPosts(context.locale! as "fa" | "en");
+  let postsData = posts.map(slug => {
+    const { data } = matter.read(`${process.cwd()}/data/posts/${context.locale!}/${slug}.md`);
+    data.slug = slug;
+    return data;
+  });
+
+  console.log(posts);
+
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common", "blog"]),
-      posts: await getAllPosts()
+      posts: postsData
     }
   };
-}
+};
 
 export default BlogPage;
