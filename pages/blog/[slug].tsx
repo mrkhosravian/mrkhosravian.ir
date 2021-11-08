@@ -99,7 +99,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const x = readFileSync(`${process.cwd()}/data/posts/fa/${context.params!.slug}.mdx`);
+  const x = readFileSync(`${process.cwd()}/data/posts/${context.locale}/${context.params!.slug}.mdx`);
   const {
     content,
     data
