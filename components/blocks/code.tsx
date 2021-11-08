@@ -1,5 +1,6 @@
 import React from "react";
 import Highlight from "prism-react-renderer";
+// @ts-ignore
 import _Prism from "prism-react-renderer/prism";
 import Head from "next/head";
 

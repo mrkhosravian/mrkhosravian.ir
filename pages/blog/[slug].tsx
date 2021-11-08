@@ -21,6 +21,7 @@ import Head from "next/head";
 interface SingleBlogPostInterface {
   frontMatter: any;
   source: any;
+  prismLoadLanguages: any
 }
 
 
@@ -29,7 +30,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
   const { prismLoadLanguages } = props;
 
   const components = {
-    code: props => <CodeBlock
+    code: (props: any) => <CodeBlock
       prismLoadLanguages={prismLoadLanguages} {...props} />
   };
 
@@ -132,12 +133,12 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     enPosts = [];
   }
 
-  const paths = enPosts.map(slug => ({
+  const paths = enPosts.map((slug: string) => ({
     params: { slug },
     locale: "en"
   }));
 
-  paths.push(...faPosts.map(slug => ({
+  paths.push(...faPosts.map((slug:string) => ({
     params: { slug },
     locale: "fa"
   })));
