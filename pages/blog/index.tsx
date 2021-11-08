@@ -78,12 +78,10 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
 export const getStaticProps: GetStaticProps = async (context) => {
   let posts = await getAllPosts(context.locale! as "fa" | "en");
   let postsData = posts.map(slug => {
-    const { data } = matter.read(`${process.cwd()}/data/posts/${context.locale!}/${slug}.md`);
+    const { data } = matter.read(`${process.cwd()}/data/posts/${context.locale!}/${slug}.mdx`);
     data.slug = slug;
     return data;
   });
-
-  console.log(posts);
 
   return {
     props: {

@@ -1,3 +1,7 @@
+.single-post {
+    @apply space-y-8
+}
+
 .single-post > ul {
     @apply my-5 mx-auto list-disc list-inside;
 }

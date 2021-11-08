@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/react": "^1.6.22",
     "classnames": "^2.3.1",
     "gray-matter": "^4.0.3",
     "moment-jalaali": "^0.9.2",
@@ -16,12 +17,16 @@
     "next-i18next": "^8.9.0",
     "next-mdx-remote": "^3.0.7",
     "next-themes": "^0.0.15",
+    "prism-react-renderer": "^1.2.1",
+    "prismjs": "^1.25.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "sharp": "^0.29.2"
   },
   "devDependencies": {
+    "@types/mdx-js__react": "^1.5.5",
     "@types/moment-jalaali": "^0.7.5",
+    "@types/prismjs": "^1.16.6",
     "@types/react": "17.0.32",
     "autoprefixer": "^10.3.7",
     "eslint": "<8.0.0",
