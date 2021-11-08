@@ -1,0 +1,15 @@
+{
+  "logo": "Mohammad Reza Khosravian",
+  "name": {
+    "fullName": "mohammad reza",
+    "first": "mohammad",
+    "middle": "reza",
+    "last": "khosravian"
+  },
+  "header": {
+    "home": "home",
+    "profile": "profile",
+    "apps": "apps"
+  },
+  "copyright": "@ {{year}} Mohammad Reza Khosravian. All rights reserved."
+}

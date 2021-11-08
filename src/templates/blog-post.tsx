@@ -5,8 +5,9 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import SEO from "../components/seo";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
-export default function BlogPost({ data }) {
-  const post = data.mdx;
+export default function BlogPost(props) {
+  console.log(props);
+  const post = props.data.mdx.childMdx;
   let featuredImgFluid = post.frontmatter.featuredImage.banner.gatsbyImageData;
   console.log(post);
   return (
@@ -15,7 +16,7 @@ export default function BlogPost({ data }) {
            description={post.frontmatter.description}
            article={true}
        image={post.frontmatter.featuredImage.seo.gatsbyImageData.images.fallback.src}/>
-      <div>
+      <div className={"py-20"}>
         <div className="container mx-auto px-5 md:px-0 mt-10 mb-20">
           <h1
             className="text-4xl font-light antialiased">{post.frontmatter.title}</h1>
@@ -25,7 +26,7 @@ export default function BlogPost({ data }) {
         </div>
         <GatsbyImage
           image={featuredImgFluid}
-          className="w-full mb-20"
+          className="w-full mb-10"
           alt={post.frontmatter.title}
         />
         <div className="container mx-auto px-5 md:px-0 single-post">
@@ -38,8 +39,9 @@ export default function BlogPost({ data }) {
   );
 }
 
-export const query = graphql`query ($slug: String!) {
-    mdx(slug : {eq: $slug}) {
+export const query = graphql`query ($slug: String!,$language: String!) {
+    mdx: file(relativePath:{eq: $slug}) {
+    childMdx {
         body
         excerpt
         timeToRead
@@ -56,6 +58,17 @@ export const query = graphql`query ($slug: String!) {
                 }
             }
         }
+        }
     }
+    
+            locales: allLocale(filter: {language: {eq: $language}}) {
+          edges {
+            node {
+              ns
+              data
+              language
+            }
+          }
+        }
 }
 `;

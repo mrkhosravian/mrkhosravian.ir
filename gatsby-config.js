@@ -17,15 +17,29 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `images`,
-        path: `${__dirname}/src/images`
+        name: `pages`,
+        path: `${__dirname}/src/pages`
       }
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        name: `src`,
-        path: `${__dirname}/src/`
+        name: `projects`,
+        path: `${__dirname}/data/projects`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `blog`,
+        path: `${__dirname}/data/blog`
+      }
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/locales/`,
+        name: `locale`
       }
     },
     `gatsby-plugin-image`,
@@ -51,10 +65,39 @@ module.exports = {
         precachePages: [`/`]
       }
     },
+    {
+      resolve: `gatsby-plugin-react-i18next`,
+      options: {
+        localeJsonSourceName: `locale`,
+        languages: [`en`, `fa`],
+        defaultLanguage: `en`,
+        siteUrl: `http://localhost:8000/`,
+        i18nextOptions: {
+          interpolation: {
+            escapeValue: false
+          },
+          keySeparator: ".",
+          nsSeparator: ":"
+        },
+        pages: [
+          {
+            matchPath: "/:lang?/projects/:uid",
+            excludeLanguages: ['en', 'fa']
+          },
+          {
+            matchPath: "/preview",
+            languages: ["en"]
+          }
+        ]
+      }
+    },
     `gatsby-plugin-postcss`,
     {
       resolve: `gatsby-plugin-mdx`,
       options: {
+        defaultLayouts: {
+          default: require.resolve(`./src/templates/blog-post.tsx`),
+        },
         gatsbyRemarkPlugins: [
           {
             resolve: `gatsby-remark-images`,
@@ -162,33 +205,34 @@ module.exports = {
         cookieDomain: "mrkhosravian.ir"
       }
     },
-    {
-      resolve: `gatsby-source-wordpress`,
-      options: {
-        url:
-        // allows a fallback url if WPGRAPHQL_URL is not set in the env, this may be a local or remote WP instance.
-          process.env.WPGRAPHQL_URL ||
-          `https://wp.mrkhosravian.ir/graphql`,
-        schema: {
-          //Prefixes all WP Types with "Wp" so "Post and allPost" become "WpPost and allWpPost".
-          typePrefix: `Wp`
-        },
-        develop: {
-          //caches media files outside of Gatsby's default cache an thus allows them to persist through a cache reset.
-          hardCacheMediaFiles: true
-        },
-        type: {
-          Post: {
-            limit:
-              process.env.NODE_ENV === `development`
-                ? // Lets just pull 50 posts in development to make it easy on ourselves (aka. faster).
-                50
-                : // and we don't actually need more than 5000 in production for this particular site
-                5000
-          }
-        }
-      }
-    }
+    // {
+    //   resolve: `gatsby-source-wordpress`,
+    //   options: {
+    //     url:
+    //     // allows a fallback url if WPGRAPHQL_URL is not set in the env, this may be a local or remote WP instance.
+    //       process.env.WPGRAPHQL_URL ||
+    //       `https://wp.mrkhosravian.ir/graphql`,
+    //     schema: {
+    //       //Prefixes all WP Types with "Wp" so "Post and allPost" become "WpPost and allWpPost".
+    //       typePrefix: `Wp`
+    //     },
+    //     develop: {
+    //       //caches media files outside of Gatsby's default cache an thus allows them to persist through a cache reset.
+    //       hardCacheMediaFiles: true
+    //     },
+    //     type: {
+    //       Post: {
+    //         limit:
+    //           process.env.NODE_ENV === `development`
+    //             ? // Lets just pull 50 posts in development to make it easy on ourselves (aka. faster).
+    //             50
+    //             : // and we don't actually need more than 5000 in production for this particular site
+    //             5000
+    //       }
+    //     }
+    //   }
+    // },
+    `gatsby-plugin-dark-mode`
   ]
 };
 

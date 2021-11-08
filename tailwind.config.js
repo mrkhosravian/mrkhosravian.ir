@@ -1,9 +1,8 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 module.exports = {
   mode: 'jit',
-  future: {
-    removeDeprecatedGapUtilities: true,
-    purgeLayersByDefault: true,
-  },
+  darkMode: 'class',
   purge: [
     'src/pages/**/*.tsx',
     'src/components/**/*.tsx',
@@ -12,15 +11,14 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['IRANSans', ...defaultTheme.fontFamily.sans]
+      },
       colors: {
         'mr-bg-gray': '#F5F5F7',
         'mr-gray': '#222832',
       }
     },
-  },
-  variants: {
-    scale: ['responsive', 'hover', 'focus', 'group-hover'],
-    borderWidth: ['responsive', 'last', 'hover', 'focus'],
   },
   plugins: [],
 };

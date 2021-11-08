@@ -1,9 +1,6 @@
 const path = require(`path`);
 let gatsbyNodeModules = require("fs").realpathSync("node_modules/gatsby");
 gatsbyNodeModules = require("path").resolve(gatsbyNodeModules, "..");
-const { createFilePath } = require(`gatsby-source-filesystem`);
-const axios = require("axios");
-
 
 exports.onCreateWebpackConfig = ({ stage, actions }) => {
 
@@ -18,45 +15,50 @@ exports.onCreateWebpackConfig = ({ stage, actions }) => {
 
 };
 
-exports.onCreateNode = ({ node, getNode, actions }) => {
-
-  const { createNodeField } = actions;
-  if (node.internal.type === `Mdx`) {
-    let slug = createFilePath({ node, getNode, basePath: `posts` });
-    createNodeField({
-      node,
-      name: `slug`,
-      value: `posts${slug}`
-    });
-  }
-};
-
-exports.createPages = async ({ graphql, actions }) => {
+exports.createPages = async ({ actions, graphql, reporter }) => {
   const { createPage } = actions;
+
+  const blogTemplate = require.resolve(`./src/templates/blog-post.tsx`);
+
   const result = await graphql(`
-    query {
-      allMdx(
-        sort: { fields: [frontmatter___date], order: DESC }
-        limit: 1000
-      ) {
+    {
+      projects: allFile(filter:{sourceInstanceName: {eq: "projects"}, ext: {eq: ".mdx"}},) {
         nodes {
-            id
-            slug
+          id
+          relativeDirectory
+          name
         }
       }
     }
   `);
 
+  if (result.errors) {
+    reporter.panicOnBuild(result.errors);
+    return;
+  }
 
-  result.data.allMdx.nodes.forEach(node => {
+  const blogPosts = result.data.projects.nodes;
+  blogPosts.forEach(({ relativeDirectory, name }) => {
+    const lng = name.split(".")[1];
+
+    console.log(relativeDirectory, name);
+
     createPage({
-      path: node.slug,
-      component: path.resolve(`./src/templates/blog-post.tsx`),
+      path: getLocalizedPath(`projects/${relativeDirectory}`, lng),
+      component: blogTemplate,
       context: {
-        // Data passed to context is available
-        // in page queries as GraphQL variables.
-        slug: node.slug
+        slug: `${relativeDirectory}/content.${lng}.mdx`
       }
     });
   });
 };
+
+
+function getLocalizedPath(path, lang) {
+  switch (lang) {
+    case "fa":
+      return `/${lang}/${path}`
+    case "en":
+      return `/${path}`
+  }
+}

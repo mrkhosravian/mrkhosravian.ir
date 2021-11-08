@@ -1,26 +1,28 @@
 import * as React from "react";
-import Header from "./header";
-import Footer from "./footer";
+import Header from "./layout/header";
+import Footer from "./layout/footer";
 import { graphql, useStaticQuery } from "gatsby";
+import Base from "./layout/base";
 
 export default function Layout({ children }: any) {
-  const { siteData } = useStaticQuery(
+  const { site } = useStaticQuery(
     graphql`
         query {
-            siteData: wp {
-              generalSettings {
-                title
-                description
-              }
+          site {
+            siteMetadata {
+              title
             }
+          }
         }
     `
   );
   return (
-    <div className={"relative pb-48 w-full min-h-screen bg-gray-100"}>
-      <Header siteTitle={siteData.generalSettings.description} />
-      <div className="container mx-auto px-5 md:px-0">{children}</div>
-      <Footer />
-    </div>
+    <Base>
+      <div className={"relative pb-48 w-full min-h-screen bg-gray-100 dark:bg-gray-800"}>
+        <Header siteTitle={site.siteMetadata.title} />
+        <div className="container mx-auto px-5 md:px-0">{children}</div>
+        <Footer />
+      </div>
+    </Base>
   );
 }

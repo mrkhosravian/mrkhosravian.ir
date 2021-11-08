@@ -72,3 +72,8 @@ yarn-error.log
 
 /.vscode
 /.idea
+
+
+schema.graphql
+
+/.wordpress-cache
