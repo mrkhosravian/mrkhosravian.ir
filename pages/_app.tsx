@@ -4,7 +4,7 @@ import { appWithTranslation } from "next-i18next";
 import { ThemeProvider } from "next-themes";
 import { useRouter } from "next/router";
 import moment from "moment-jalaali";
-
+import "../styles/themes/atom-onedark.min.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
 

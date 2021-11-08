@@ -13,13 +13,25 @@ import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 import Meta from "../../components/meta/meta";
 import matter from "gray-matter";
+import { MDXProvider } from "@mdx-js/react";
+import CodeBlock from "../../components/blocks/code";
+import { readFileSync } from "fs";
+import Head from "next/head";
 
 interface SingleBlogPostInterface {
   frontMatter: any;
   source: any;
 }
 
+
 const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
+
+  const { prismLoadLanguages } = props;
+
+  const components = {
+    code: props => <CodeBlock
+      prismLoadLanguages={prismLoadLanguages} {...props} />
+  };
 
   const { t } = useTranslation();
 
@@ -33,7 +45,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
       <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10">
         <main className="mt-10 lg:mt-20 space-y-6">
           <article className="lg:grid lg:grid-cols-12 gap-x-10">
-            <div className="col-span-4 lg:text-center mb-10 relative">
+            <div className="col-span-12 lg:text-center mb-10 relative">
               <Image
                 src={props.frontMatter.image || "/mohammad-reza-khosravian.png"}
                 alt={props.frontMatter.title}
@@ -49,7 +61,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               </p>
             </div>
 
-            <div className="col-span-8">
+            <div className="col-span-12">
               <div className="hidden lg:flex mb-6">
                 <Link href="/blog">
                   <a
@@ -65,7 +77,9 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               </h1>
 
               <div className="single-post">
-                <MDXRemote {...props.source} />
+                <MDXProvider components={components}>
+                  <MDXRemote {...props.source} />
+                </MDXProvider>
               </div>
             </div>
 
@@ -84,17 +98,26 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  const x = readFileSync(`${process.cwd()}/data/posts/fa/${context.params!.slug}.mdx`);
   const {
     content,
     data
-  } = matter.read(`${process.cwd()}/data/posts/fa/${context.params!.slug}.md`);
+  } = matter(x);
+
   const mdxSource = await serialize(content, { scope: data });
 
+  const kotlin = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-kotlin.js`).toString();
+  // const python = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-python.js`).toString();
+  // console.log(python);
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common"]),
       source: mdxSource,
-      frontMatter: data
+      frontMatter: data,
+      prismLoadLanguages: [
+        kotlin
+        // python
+      ]
     }
   };
 };
@@ -102,7 +125,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths: GetStaticPaths = async (context) => {
 
   const faPosts = await getAllPosts("fa");
-  const enPosts = await getAllPosts("en");
+  let enPosts: any;
+  try {
+    enPosts = await getAllPosts("en");
+  } catch (e) {
+    enPosts = [];
+  }
 
   const paths = enPosts.map(slug => ({
     params: { slug },

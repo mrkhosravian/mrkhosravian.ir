@@ -9,4 +9,4 @@ export const postFilePaths = (lang: "fa" | "en") => fs
   .readdirSync(POSTS_PATH + "/" + lang + "/")
   // Only include md(x) files
   .filter((path) => /\.mdx?$/.test(path))
-  .map(path => path.substr(0, path.lastIndexOf(".")) || path);
+  .map(path => path.substr(0, path.lastIndexOf(".")) || path)
