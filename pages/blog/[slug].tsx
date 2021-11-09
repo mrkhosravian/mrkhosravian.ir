@@ -108,16 +108,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const mdxSource = await serialize(content, { scope: data });
 
   const kotlin = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-kotlin.js`).toString();
-  // const python = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-python.js`).toString();
-  // console.log(python);
+  const java = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-java.js`).toString();
+
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common"]),
       source: mdxSource,
       frontMatter: data,
       prismLoadLanguages: [
-        kotlin
-        // python
+        kotlin,
+        java
       ]
     }
   };
