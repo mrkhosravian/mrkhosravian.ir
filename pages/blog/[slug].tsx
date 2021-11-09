@@ -21,6 +21,7 @@ import Head from "next/head";
 interface SingleBlogPostInterface {
   frontMatter: any;
   source: any;
+  prismLoadLanguages: any
 }
 
 
@@ -29,7 +30,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
   const { prismLoadLanguages } = props;
 
   const components = {
-    code: props => <CodeBlock
+    code: (props: any) => <CodeBlock
       prismLoadLanguages={prismLoadLanguages} {...props} />
   };
 
@@ -98,7 +99,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const x = readFileSync(`${process.cwd()}/data/posts/fa/${context.params!.slug}.mdx`);
+  const x = readFileSync(`${process.cwd()}/data/posts/${context.locale}/${context.params!.slug}.mdx`);
   const {
     content,
     data
@@ -107,16 +108,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const mdxSource = await serialize(content, { scope: data });
 
   const kotlin = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-kotlin.js`).toString();
-  // const python = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-python.js`).toString();
-  // console.log(python);
+  const java = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-java.js`).toString();
+
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common"]),
       source: mdxSource,
       frontMatter: data,
       prismLoadLanguages: [
-        kotlin
-        // python
+        kotlin,
+        java
       ]
     }
   };
@@ -132,12 +133,12 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     enPosts = [];
   }
 
-  const paths = enPosts.map(slug => ({
+  const paths = enPosts.map((slug: string) => ({
     params: { slug },
     locale: "en"
   }));
 
-  paths.push(...faPosts.map(slug => ({
+  paths.push(...faPosts.map((slug:string) => ({
     params: { slug },
     locale: "fa"
   })));

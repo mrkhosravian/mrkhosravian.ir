@@ -1,8 +1,8 @@
 import { fetchAPI } from "./api";
 import { postFilePaths } from "../mdxUtils";
 
-export async function getAllPosts(lange: "en"|"fa", preview: boolean = false) {
-  return postFilePaths(lange)
+export async function getAllPosts(lang: "en"|"fa", preview: boolean = false) {
+  return postFilePaths(lang)
 }
 
 export async function getPost(slug: string) {
