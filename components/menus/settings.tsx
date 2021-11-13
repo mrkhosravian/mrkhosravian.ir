@@ -61,7 +61,7 @@ const Settings: FunctionComponent = () => {
   return (
     <div
       ref={ref}
-      className={classNames("bg-white dark:bg-gray-600 rounded-xl fixed left-5 md:left-16 bottom-5 md:bottom-16 drop-shadow-xl overflow-hidden duration-100 select-none bg-gray-300", {
+      className={classNames("bg-white dark:bg-gray-600 rounded-xl fixed left-5 md:left-16 bottom-5 md:bottom-16 drop-shadow-xl overflow-hidden duration-100 select-none bg-gray-300 z-40", {
         "w-16 h-16": !open,
         "w-56 h-56": open
       })}
