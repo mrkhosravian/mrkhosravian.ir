@@ -2,6 +2,7 @@ import classNames from "classnames";
 
 import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 
 interface Props {
   open: boolean;
@@ -13,6 +14,8 @@ const Hamburger: FC<Props> = ({ open, setOpen }: Props) => {
   const { t } = useTranslation();
 
   const [loaded, setLoaded] = useState(false);
+
+  const router = useRouter();
 
   const increase = () => {
     setTimeout(() => {
@@ -32,9 +35,9 @@ const Hamburger: FC<Props> = ({ open, setOpen }: Props) => {
   }, [open]);
 
   return (
-    <button className={classNames("lg:hidden z-50 transition-width-height", {
-      "w-16 h-16 transform translate-y-10 -translate-x-10": loaded,
-      "w-6 h-6": !loaded
+    <button className={classNames("lg:hidden z-50 transition-transform w-6 h-6 transform", {
+      "translate-y-10 -translate-x-10 scale-150": loaded && router.locale === 'en',
+      "translate-y-10 translate-x-10 scale-150": loaded && router.locale === 'fa',
     })} onClick={() => {
       setOpen(prevState => !prevState);
     }}>

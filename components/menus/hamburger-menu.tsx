@@ -17,9 +17,10 @@ const HamburgerMenu: FC = () => {
     <>
       <Hamburger open={open} setOpen={setOpen} />
       <div
-        className={classNames("lg:hidden backdrop-blur-3xl backdrop-filter bg-opacity-0 fixed left-0 bottom-full h-full w-full transition-transform duration-300 ease-in-out transform z-30", {
-          "translate-y-full": open
-        })}>
+        className={classNames("lg:hidden bg-white dark:bg-gray-900 fixed inset-0 transition-transform duration-300 ease-in-out transform z-30 -translate-y-full", {
+          "translate-y-0": open
+        })}
+      >
         <div
           className="w-full h-full flex justify-center items-center text-center">
           <ul className={"lg:hidden text-4xl space-y-16"}>
