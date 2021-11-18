@@ -9,16 +9,16 @@ interface Props {
 export const Accordion: FC<PropsWithChildren<Props>> = (props) => {
   const [open, setOpen] = useState(false);
   return (
-    <div className={"accordion rounded overflow-hidden"}>
-      <div className="bg-gray-300 py-3 p-5 flex justify-between"
+    <div className={"accordion rounded overflow-hidden shadow-xl"}>
+      <div className="bg-gray-300 dark:bg-gray-900 py-3 p-5 flex justify-between"
            onClick={() => setOpen(prevState => !prevState)}>
         {props.title}
         <ChevronDown
-          className={classNames("transform rotate-90 transition-transform duration-300", {
+          className={classNames("transform rotate-90 transition-transform duration-200", {
             "rotate-0": open
           })} />
       </div>
-      <div className={classNames("overflow-hidden bg-gray-300 bg-opacity-40", {
+      <div className={classNames("overflow-hidden bg-gray-300 dark:bg-gray-900 bg-opacity-40 dark:bg-opacity-70", {
         "h-0": !open,
         "p-4": open
       })}>

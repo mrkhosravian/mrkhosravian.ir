@@ -31,7 +31,7 @@
 }
 
 .single-post h2 {
-    @apply my-10 text-4xl mx-auto;
+    @apply my-10 text-3xl mx-auto;
 }
 
 .single-post h3 {
