@@ -103,6 +103,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const kotlin = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-kotlin.js`).toString();
   const java = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-java.js`).toString();
+  const docker = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-docker.js`).toString();
+  const bash = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-bash.js`).toString();
 
   return {
     props: {
@@ -111,7 +113,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
       frontMatter: data,
       prismLoadLanguages: [
         kotlin,
-        java
+        java,
+        docker,
+        bash
       ]
     }
   };

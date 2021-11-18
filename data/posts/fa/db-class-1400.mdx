@@ -6,14 +6,333 @@ excerpt: حل تمرین
 tags: ['ta','db','sql']
 ---
 
+
+
 import { Accordion } from "../../../components/blocks/accordion";
 
 
-<Accordion title={'جلسه اول'}>
+## سلام
+
+تو این درس قصد داریم زبان SQL رو با هم یاد بگیریم
+
+خب DBMS (سیستم مدیریت محتوا) که برای این درس انتخاب کردم MySQL هست
+
+<Accordion title={'جلسه اول - پیشنیاز ها'}>
+
+  ## نصب MySQL
+
+  برای نصب MySQL سه روش رو میخوایم یاد بگیریم
+
+  - MySQL Installer
+  - XAMPP
+  - Docker
+
+
+  ### نصب از طریق MySQL Installer
+
+  1. به وبسایت [MySQL](https://dev.mysql.com/downloads/installer/)
+  1. در این صفحه روی گزینه دانلود کلیک کنید (ترجیحا نسخه کامل)
+  1. فایل دانلود شده را باز می کنیم
+
+
+  ### نصب از طریق XAMPP
+
+  *نکته : دقت کنید که این برنامه رو در مسیر `c:/xampp` نصب کنید تا مشکلی پیش
+  نیاد*
+
+  1. ابتدا برنامه
+  [XAMPP](https://soft98.ir/internet/webmaster-tools/13861-xampp.html) را دانلود
+  می کنیم
+  1. فایل دانلود شده را از حالت فشرده خارج می کنیم
+  1. فایل استخراج شده را باز می کنیم
+  1. تمام مراحل را next بزنید و صبر کنید تا نصب شود
+
+
+  ### نصب از طریق Docker
+  1. ابتدا باید Docker Desktop رو نصب کنیم
+  1. به وبسایت [Docker](https://docs.docker.com/desktop/windows/install/) می
+  رویم و داکر را برای ویندوز دانلود می کنیم
+  1. داکر رو نصب می کنیم (چندتا next ساده)
+  1. بعد از نصب با اجرای دستور `docker` در محیط CMD مطمئن می شویم که داکر اجرا
+  است
+  ```bash
+  docker run --name mysql \
+  -v mysql-data:/var/lib/mysql \
+  -e MYSQL_ROOT_PASSWORD=1234 \
+  -d mysql
+  ```
+  1. حالا کافیه phpmyadmin رو هم دانلود و اجرا کنیم
+  ```bash
+  docker run --name myadmin \
+  --link mysql:db \
+  -e "UPLOAD_LIMIT=100M" \
+  -e "MEMORY_LIMIT=1024M" \
+  -e "MAX_EXECUTION_TIME=30000" \
+  -p 8080:80 \
+  -d phpmyadmin/phpmyadmin
+  ```
+  1. و تمام. الان کافیه مرورگر رو باز کنید و به آدرس
+  [http://localhost:8080](http://localhost:8080) برید
+
+
+</Accordion>
+
+<Accordion title={'جلسه دوم - ایجاد و حذف دیتابیس و جدول'}>
+
+  اولین دستوری که یاد میگیریم دستوری هست که توسط اون ما می توانیم لیستی از
+  پایگاه داده های موجود رو مشاهده کنیم :
+  ```sql
+  SHOW DATABASES;
+  ```
+
+  ---
+
+  برای ساخت دیتبایس جدید می توانیم از دستور زیر استفاده کنیم :
+
+  *دقت داشته باشید که `db_class` در این دستور هر اسم دلخواهی می تواند باشد*
+
+  ```sql
+  CREATE DATABASE db_class;
+  ```
+  ---
+
+  الان که تونستیم یک دیتابیس جدید بسازیم، می خوایم به اون جدول هم اضافه کنیم
+
+  ```sql
+  CREATE TABLE table1 (
+  column1 int,
+  column2 VARCHAR(50)
+  );
+
+  CREATE TABLE table2 (
+  id INT PRIMARY KEY,
+  name VARCHAR(255)
+  );
+  ```
+  ---
+
+  *نکته : SQL یک زبان رویه ای است*
+
+  برای حذف یک دیتابیس از دستور زیر استفاده می کنیم :
+  ```sql
+  DROP DATABASE db_class;
+  ```
+
+  ---
+
+  برای وارد کردن اطلاعات به جدول هایی که ساختیم می توانیم از دستور زیر استفاده
+  کنیم :
+
+  ```sql
+  INSERT INTO table2 ( id, name ) VALUES (1, 'mohammad reza');
+
+  INSERT INTO table2 ( id, name ) VALUES (2, 'sara');
+
+  INSERT INTO table2 ( id, name ) VALUES (3, 'dara');
+  ```
+
+  ---
+
+  همچنین برای حذف جدول هایی که ساختیم می توانیم از دستور زیر استفاده کنیم :
+
+  ```sql
+  DROP TABLE table1;
+
+  DROP TABLE table2;
+  ```
+
+</Accordion>
+
+<Accordion title={'جلسه سوم - آغاز کار با SELECT'} defaultOpen>
+
+  *مهم ترین بخش دستورات SQL ، دستورات SELECT هستند که برای بازیابی اطلاعات
+  استفاده می شوند*
+
+  ما در این قرار هست برای یادگیری دستور `SELECT` از یک دیتاست آماده با موضوع شهر
+  کشور و زبان هست کار کنیم
+
+  برای دانلود این دیتاست [کلیک]() کنید
+
+  بعد از دانلود می توانید از تب import این دیتاست را وارد MySQL کنید
+
+  *اگر از phpmyadmin استفاده می کنید باید مطمئن شوید که محدودیت آپلود فایل رو
+  درست کنید*
+
+  ---
+
+  حالا که دیتاست خودمون رو وارد کردیم می خوایم اولین دستور رو برای دریافت تمام
+  کشور ها اجرا کنیم :
+
+  ```sql
+  SELECT * FROM country;
+  ```
+
+  می بینیم که با اجرای دستور بالا تمام کشور ها به همراه تمام صفات اون ها رو
+  دریافت کردیم
+
+  اما اگه بخوایم تنها چند صفت که نیاز داریم دریافت کنیم به روش زیر اقدام می کنیم
+  :
+
+  ```sql
+  SELECT Name, Continent, Population FROM country;
+  ```
+
+  ---
+
+  اگر بخوایم تمام قاره هایی که در پایگاه داده ما هست رو ببینیم می تونیم از دستور
+  زیر استفاده کنیم :
+
+  ```sql
+  SELECT Continent FROM country;
+  ```
+
+  اما اگه دقت کرده باشید به ازای هر کشور قاره آن کشور رو به ما نمایش داد. اگر
+  بخوایم مقادیر یکسان را در جواب به ما برنگردونه از دستور زیر می تونیم استفاده
+  کنیم :
+
+  ```sql
+  SELECT DISTINCT Continent FROM country;
+  ```
+
+  همونطور که مشاهده می کنید تنها با `DISTINCT` پشت اسم صفت قاره تونستیم مقادیر
+  یکسان رو از پاسخ نهایی حذف کنیم
+
+  ---
+
+  ### توابع تجمعی (Aggregate Functions)
+
+  - `COUNT` شمارش تعداد ردیف ها
+  - `MAX` بیشترین مقدار ستون
+  - `MIN` کمترین مقدار ستون
+  - `AVG` میانگین مقادیر ستون
+  - `SUM` جمع مقادیر ستون
+
+
+
+  ---
+
+  برای شمارش تعداد کشور ها می توانیم از تابع `COUNT` استفاده کنیم
+
+  ```sql
+  SELECT COUNT(*) as تعداد FROM `country`;
+  ```
+
+
+  ```sql
+  SELECT Name as اسم, Continent as قاره, Population as جمعیت
+  FROM `country`;
+  ```
+
+  ```sql
+  SELECT COUNT(`LifeExpectancy`) as تعداد FROM `country`;
+  ```
+
+  ```sql
+  SELECT Max(LifeExpectancy) FROM `country`
+  ```
+
+  ```sql
+  SELECT MIN(`SurfaceArea`) FROM `country`;
+  ```
+
+  ```sql
+  SELECT AVG(`LifeExpectancy`) FROM `country`;
+  ```
+
+  ```sql
+  -- World population
+  SELECT SUM(`Population`) FROM `country`
+  ```
+
+  ```sql
+  SELECT * FROM `country` WHERE 1
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE code = 'IRN';
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE NOT code = 'IRN';
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE LifeExpectancy > 70 AND GNP > 1000;
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE code = 'IRN' OR code = 'USA';
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `GovernmentForm` LIKE '%islam%';
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `Name` LIKE '____';
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `Name` LIKE 'IR%';
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE REGEXP_LIKE(name, '^I.*[abcn]$');
+  ```
+
+  ```sql
+  -- Multiple OR
+  SELECT * FROM `country`
+  WHERE Name IN ('Iran', 'United States', 'Argentina');
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE Name NOT IN ('Iran', 'United States', 'Argentina');
+  ```
+
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `Population` BETWEEN 60000000 AND 100000000;
+  ```
+
+  ```sql
+  SELECT * FROM `country` ORDER BY `Population` ASC;
+  ```
+
+  ```sql
+  -- ASC is default
+  SELECT * FROM `country` ORDER BY `Population` DESC;
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  ORDER BY LifeExpectancy ASC, `Population` DESC;
+  ```
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `Population` BETWEEN 60000000 AND 100000000
+  ORDER BY `Population` DESC
+  LIMIT 10;
+  ```
+
+</Accordion>
+
+<Accordion title={'جلسه چهارم - پیشنیاز ها'}>
+
 
   ```sql
   SELECT * FROM users;
   ```
 
 </Accordion>
-
