@@ -125,10 +125,10 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
 
-  const faPosts = await getAllPosts("fa");
+  const faPosts = getAllPosts("fa");
   let enPosts: any;
   try {
-    enPosts = await getAllPosts("en");
+    enPosts = getAllPosts("en");
   } catch (e) {
     enPosts = [];
   }
