@@ -2,7 +2,7 @@
 @import "backgrounds.css";
 @import "fontiran.css";
 @import "404.css";
-@import "wordpress-base.css";
+@import "base.css";
 
 @tailwind base;
 @tailwind components;
@@ -29,6 +29,6 @@
     body,
     body > div:first-child,
     div#__next {
-        height: 100%;
+        min-height: 100%;
     }
 }

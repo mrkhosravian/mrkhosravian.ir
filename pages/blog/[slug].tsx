@@ -16,12 +16,12 @@ import matter from "gray-matter";
 import { MDXProvider } from "@mdx-js/react";
 import CodeBlock from "../../components/blocks/code";
 import { readFileSync } from "fs";
-import Head from "next/head";
+import { Accordion } from "../../components/blocks/accordion";
 
 interface SingleBlogPostInterface {
   frontMatter: any;
   source: any;
-  prismLoadLanguages: any
+  prismLoadLanguages: any;
 }
 
 
@@ -31,7 +31,8 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
   const components = {
     code: (props: any) => <CodeBlock
-      prismLoadLanguages={prismLoadLanguages} {...props} />
+      prismLoadLanguages={prismLoadLanguages} {...props} />,
+    Accordion
   };
 
   const { t } = useTranslation();
@@ -43,10 +44,11 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
       <Meta title={props.frontMatter.title} />
 
-      <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10">
+      <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10 mb-20">
         <main className="mt-10 lg:mt-20 space-y-6">
           <article className="lg:grid lg:grid-cols-12 gap-x-10">
-            <div className="col-span-12 lg:text-center mb-10 relative">
+            <div
+              className="col-span-4 lg:text-center mb-10 relative lg:sticky lg:top-20 lg:self-start">
               <Image
                 src={props.frontMatter.image || "/mohammad-reza-khosravian.png"}
                 alt={props.frontMatter.title}
@@ -62,7 +64,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               </p>
             </div>
 
-            <div className="col-span-12">
+            <div className="col-span-8">
               <div className="hidden lg:flex mb-6">
                 <Link href="/blog">
                   <a
@@ -77,20 +79,12 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
                 {props.frontMatter.title}
               </h1>
 
-              <div className="single-post">
+              <div className={"single-post"}>
                 <MDXProvider components={components}>
                   <MDXRemote {...props.source} />
                 </MDXProvider>
               </div>
             </div>
-
-            <section className="col-span-8 col-start-5 mt-10 space-y-6">
-              {/*@include ('posts._add-comment-form')*/}
-
-              {/*@foreach ($post->comments as $comment)*/}
-              {/*<x-post-comment :comment="$comment"/>*/}
-              {/*@endforeach*/}
-            </section>
           </article>
         </main>
       </div>
@@ -138,7 +132,7 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     locale: "en"
   }));
 
-  paths.push(...faPosts.map((slug:string) => ({
+  paths.push(...faPosts.map((slug: string) => ({
     params: { slug },
     locale: "fa"
   })));
