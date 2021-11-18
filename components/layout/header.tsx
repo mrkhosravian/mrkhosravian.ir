@@ -10,7 +10,7 @@ const Header: FunctionComponent = () => {
   return (
     <div
       className={"py-3 px-5 xl:px-0 border-b border-gray-300 dark:border-gray-600 dark:bg-gray-900 fixed top-0 left-0 w-full bg-white z-20"}>
-      <div className="max-w-5xl mx-auto flex justify-between">
+      <div className="max-w-5xl mx-auto flex justify-between relative">
         <h1 className={"w-64 font-bold text-gradient"}>
           <Link href={"/"}>
             <a>{t("logo")}</a>

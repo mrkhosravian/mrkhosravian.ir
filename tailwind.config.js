@@ -1,21 +1,22 @@
 module.exports = {
-  mode: 'jit',
+  mode: "jit",
   purge: [
     "./pages/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}"
   ],
-  darkMode: 'class', // or 'media' or 'class'
+  darkMode: "class", // or 'media' or 'class'
   theme: {
     extend: {
       transitionProperty: {
-        'width-height': 'height width',
+        "height": "height",
+        "width-height": "height width"
       }
-    },
+    }
   },
   variants: {
-    extend: {},
+    extend: {}
   },
   plugins: [
-    require('tailwindcss-rtl'),
-  ],
-}
+    require("tailwindcss-rtl"),
+  ]
+};

@@ -10,12 +10,18 @@ import Meta from "../../components/meta/meta";
 import matter from "gray-matter";
 import moment from "moment-jalaali";
 import { useRouter } from "next/router";
+import Pagination from "../../components/list/pagination";
+import { countPosts } from "../../lib/mdxUtils";
+import { BlogConfig } from "../../lib/config";
 
-interface BlogPageInterface {
+interface Props {
   posts: any;
+  currentPage: number;
+  totalPages: number;
+
 }
 
-const BlogPage: NextPage<BlogPageInterface> = (props) => {
+const BlogPage: NextPage<Props> = (props) => {
   const { t } = useTranslation(["blog"]);
   const router = useRouter();
   const { posts } = props;
@@ -69,6 +75,8 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
             })
           }
         </div>
+        <Pagination currentPage={props.currentPage}
+                    totalPages={props.totalPages} />
       </div>
     </Layout>
   );
@@ -76,17 +84,25 @@ const BlogPage: NextPage<BlogPageInterface> = (props) => {
 
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  let posts = await getAllPosts(context.locale! as "fa" | "en");
-  let postsData = posts.map(slug => {
+  let posts = getAllPosts(context.locale! as "fa" | "en");
+  const start = 0;
+  posts = posts.slice(start, start + BlogConfig.pagination.perPage);
+
+  let postsData = [];
+
+  for (let i = 0; i < posts.length; i++) {
+    const slug = posts[i];
     const { data } = matter.read(`${process.cwd()}/data/posts/${context.locale!}/${slug}.mdx`);
     data.slug = slug;
-    return data;
-  });
+    postsData.push(data);
+  }
 
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common", "blog"]),
-      posts: postsData
+      posts: postsData,
+      currentPage: 1,
+      totalPages: countPosts(context.locale! as "fa" | "en")
     }
   };
 };

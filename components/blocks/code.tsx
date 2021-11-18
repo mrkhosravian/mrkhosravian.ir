@@ -17,7 +17,7 @@ const CodeBlock = ({ children, className, prismLoadLanguages }: any) => {
       {({ className, style, tokens, getLineProps, getTokenProps }) => {
         // console.log(tokens);
         return (
-          <pre className={className + " rounded shadow-xl"} style={{
+          <pre className={className + " rounded shadow-xl whitespace-nowrap"} style={{
             ...style,
             fontFamily: "'JetBrains Mono', monospace"
           }} dir={"ltr"}>

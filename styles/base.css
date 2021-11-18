@@ -1,0 +1,115 @@
+.single-post {
+    @apply space-y-10 antialiased
+}
+
+.single-post .accordion > div:last-child {
+    @apply space-y-5
+}
+
+.single-post ul, .single-post ol {
+    @apply list-none space-y-4;
+}
+
+.single-post ul li {
+    @apply relative pr-5
+}
+
+.single-post ul li:before {
+    content: "";
+    @apply inline-block w-1 h-1 rounded-full bg-gray-500 absolute right-0 top-1/2 transform -translate-y-1/2
+    /*@apply list-disc list-inside;*/
+}
+
+.single-post a {
+    @apply underline font-semibold;
+}
+
+.single-post em {
+    @apply text-yellow-600;
+}
+
+.single-post code {
+    @apply not-italic bg-gray-400 p-1 rounded text-black mx-1;
+    font-family: "JetBrains Mono", serif;
+}
+
+.single-post img {
+    @apply w-full rounded;
+}
+
+.single-post ol {
+    @apply list-decimal list-inside;
+}
+
+.single-post blockquote {
+    @apply border-l-8 pl-10 mx-auto  font-light text-gray-900 text-opacity-75;
+}
+
+.single-post hr {
+    @apply border-gray-900 dark:border-gray-100 rounded;
+}
+
+.single-post h1 {
+    @apply text-3xl font-bold mx-auto;
+}
+
+.single-post h2 {
+    @apply text-2xl mx-auto;
+}
+
+.single-post h3 {
+    @apply text-xl mx-auto;
+}
+
+/* Wordpress block gallery */
+
+.single-post .wp-block-gallery {
+
+}
+
+.single-post .wp-block-gallery.columns-3 .blocks-gallery-grid {
+    @apply gap-5
+}
+
+.single-post .wp-block-gallery.columns-3 .blocks-gallery-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
+}
+
+/* Wordpress block table */
+
+.single-post table {
+    @apply w-full table-fixed
+}
+
+.single-post thead {
+    @apply border-b-2 border-gray-800 dark:border-gray-200 text-left rtl:text-right;
+}
+
+.single-post tbody tr td, .single-post thead tr th {
+    @apply py-5 px-5
+}
+
+.single-post tbody tr {
+    @apply hover:bg-gray-300 dark:hover:bg-gray-900
+}
+
+html[dir="ltr"] .single-post tbody tr td:first-child {
+    @apply rounded-l
+}
+
+html[dir="ltr"] .single-post tbody tr td:last-child {
+    @apply rounded-r
+}
+
+html[dir="rtl"] .single-post tbody tr td:first-child {
+    @apply rounded-r
+}
+
+html[dir="rtl"] .single-post tbody tr td:last-child {
+    @apply rounded-l
+}
+
+
+.single-post tbody tr:nth-child(even) {
+    @apply bg-gray-300 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60 hover:bg-opacity-100 dark:hover:bg-opacity-100;
+}

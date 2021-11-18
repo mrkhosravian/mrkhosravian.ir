@@ -9,4 +9,17 @@ export const postFilePaths = (lang: "fa" | "en") => fs
   .readdirSync(POSTS_PATH + "/" + lang + "/")
   // Only include md(x) files
   .filter((path) => /\.mdx?$/.test(path))
-  .map(path => path.substr(0, path.lastIndexOf(".")) || path)
+  .map(fileName => ({
+    path: fileName,
+    time: fs.statSync(POSTS_PATH + "/" + lang + "/" + fileName).ctime.getTime()
+  }))
+  .sort(function(a, b) {
+    console.log(a.time, b.time);
+    return b.time - a.time;
+  })
+  .map(({ path }) => path.substr(0, path.lastIndexOf(".")) || path);
+
+export const countPosts = (lang: "fa" | "en") => fs
+  .readdirSync(POSTS_PATH + "/" + lang + "/")
+  .filter((path) => /\.mdx?$/.test(path))
+  .length;
