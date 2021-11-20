@@ -22,6 +22,7 @@ interface SingleBlogPostInterface {
   frontMatter: any;
   source: any;
   prismLoadLanguages: any;
+  slug: string;
 }
 
 
@@ -35,7 +36,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
     Accordion
   };
 
-  const { t } = useTranslation();
+  const { t } = useTranslation(["common", "blog"]);
 
   const router = useRouter();
 
@@ -79,6 +80,22 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
                 {props.frontMatter.title}
               </h1>
 
+              <a
+                className={"text-sm my-5 rounded py-2 flex items-center opacity-50 hover:opacity-100 no-underline hover:underline"}
+                target={"_blank"}
+                href={`https://github.com/mrkhosravian/mrkhosravian.ir/edit/main/data/posts/${router.locale}/${props.slug}.mdx`}
+                rel="noreferrer">
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     className="h-4 w-4 ltr:mr-5 rtl:ml-5"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+
+                {t("blog:Edit this post")}
+              </a>
+
               <div className={"single-post"}>
                 <MDXProvider components={components}>
                   <MDXRemote {...props.source} />
@@ -98,6 +115,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     content,
     data
   } = matter(x);
+  console.log(data);
 
   const mdxSource = await serialize(content, { scope: data });
 
@@ -108,7 +126,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      ...await serverSideTranslations(context.locale!, ["common"]),
+      ...await serverSideTranslations(context.locale!, ["common", "blog"]),
       source: mdxSource,
       frontMatter: data,
       prismLoadLanguages: [
@@ -116,7 +134,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
         java,
         docker,
         bash
-      ]
+      ],
+      slug: context.params!.slug
     }
   };
 };

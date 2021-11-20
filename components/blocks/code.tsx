@@ -19,6 +19,7 @@ const CodeBlock = ({ children, className, prismLoadLanguages }: any) => {
         return (
           <pre className={className + " rounded shadow-xl whitespace-nowrap"} style={{
             ...style,
+            fontSize: "14px",
             fontFamily: "'JetBrains Mono', monospace"
           }} dir={"ltr"}>
           {tokens.slice(0, tokens.length - 1).map((line, i) => {
