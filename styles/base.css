@@ -6,6 +6,10 @@
     @apply space-y-5
 }
 
+.single-post p {
+    @apply leading-loose
+}
+
 .single-post ul, .single-post ol {
     @apply list-none space-y-4;
 }
@@ -22,6 +26,10 @@
 
 .single-post a {
     @apply underline font-semibold;
+}
+
+.single-post strong {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-red-400 py-5
 }
 
 .single-post em {
