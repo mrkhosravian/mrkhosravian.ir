@@ -17,6 +17,7 @@ import { MDXProvider } from "@mdx-js/react";
 import CodeBlock from "../../components/blocks/code";
 import { readFileSync } from "fs";
 import { Accordion } from "../../components/blocks/accordion";
+import DownloadBtn from "../../components/buttons/download";
 
 interface SingleBlogPostInterface {
   frontMatter: any;
@@ -33,7 +34,8 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
   const components = {
     code: (props: any) => <CodeBlock
       prismLoadLanguages={prismLoadLanguages} {...props} />,
-    Accordion
+    Accordion,
+    DownloadBtn
   };
 
   const { t } = useTranslation(["common", "blog"]);
@@ -45,7 +47,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
       <Meta title={props.frontMatter.title} />
 
-      <div className="max-w-5xl mx-auto px-5 md:px-0 xl:px-0 py-10 mb-20">
+      <div className="max-w-5xl mx-auto px-5 lg:px-0 xl:px-0 py-10 mb-20">
         <main className="mt-10 lg:mt-20 space-y-6">
           <article className="lg:grid lg:grid-cols-12 gap-x-10">
             <div
@@ -115,7 +117,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
     content,
     data
   } = matter(x);
-  console.log(data);
 
   const mdxSource = await serialize(content, { scope: data });
 
