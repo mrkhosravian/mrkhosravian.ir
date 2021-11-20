@@ -5,19 +5,14 @@ image: https://wp.mrkhosravian.ir/wp-content/uploads/2021/11/pascals-triangle-ty
 excerpt: how to solve pascal triangle with java
 ---
 
-<div className={"mx-auto max-w-lg my-10"}>
 
-  Here is a problem in **UVA** book
+Here is a problem in **UVA** book
 
-  - Question: 485 - Pascal's Triangle of Death
-  - [question link](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=6&page=show_problem&problem=426)
-  - Time limit: 3.000s
+- Question: 485 - Pascal's Triangle of Death
+- [question link](https://uva.onlinejudge.org/index.php?option=com_onlinejudge&Itemid=8&category=6&page=show_problem&problem=426)
+- Time limit: 3.000s
 
-  The key to our solution is this formula : ` c = c * (line - i) / i `
-
-
-
-</div>
+The key to our solution is this formula : ` c = c * (line - i) / i `
 
 
 ```java
@@ -45,7 +40,9 @@ public class PascalsTriangleOfDeath {
 
                 System.out.print(element + " ");
 
-                element = element.multiply(BigInteger.valueOf(line - i)).divide(BigInteger.valueOf(i));
+                element = element.multiply(
+                  BigInteger.valueOf(line - i)).divide(BigInteger.valueOf(i)
+                );
 
             }
 

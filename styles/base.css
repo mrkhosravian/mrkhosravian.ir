@@ -6,17 +6,21 @@
     @apply space-y-5
 }
 
+.single-post p {
+    @apply leading-loose
+}
+
 .single-post ul, .single-post ol {
     @apply list-none space-y-4;
 }
 
 .single-post ul li {
-    @apply relative pr-5
+    @apply relative ltr:pl-5 rtl:pr-5
 }
 
 .single-post ul li:before {
     content: "";
-    @apply inline-block w-1 h-1 rounded-full bg-gray-500 absolute right-0 top-1/2 transform -translate-y-1/2
+    @apply inline-block w-1 h-1 rounded-full bg-gray-500 absolute ltr:left-0 rtl:right-0 top-1/2 transform -translate-y-1/2
     /*@apply list-disc list-inside;*/
 }
 
@@ -24,12 +28,16 @@
     @apply underline font-semibold;
 }
 
+.single-post strong {
+    @apply text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-red-400 py-5
+}
+
 .single-post em {
     @apply text-yellow-600;
 }
 
 .single-post code {
-    @apply not-italic bg-gray-400 p-1 rounded text-black mx-1;
+    @apply not-italic bg-gray-400 p-0.5 rounded text-black mx-1;
     font-family: "JetBrains Mono", serif;
 }
 

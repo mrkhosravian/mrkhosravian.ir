@@ -9,6 +9,7 @@ tags: ['ta','db','sql']
 
 
 import { Accordion } from "../../../components/blocks/accordion";
+import DownloadBtn from "../../../components/buttons/download";
 
 
 ## سلام
@@ -57,19 +58,19 @@ import { Accordion } from "../../../components/blocks/accordion";
   است
   ```bash
   docker run --name mysql \
-  -v mysql-data:/var/lib/mysql \
-  -e MYSQL_ROOT_PASSWORD=1234 \
-  -d mysql
+    -v mysql-data:/var/lib/mysql \
+    -e MYSQL_ROOT_PASSWORD=1234 \
+    -d mysql
   ```
   1. حالا کافیه phpmyadmin رو هم دانلود و اجرا کنیم
   ```bash
   docker run --name myadmin \
-  --link mysql:db \
-  -e "UPLOAD_LIMIT=100M" \
-  -e "MEMORY_LIMIT=1024M" \
-  -e "MAX_EXECUTION_TIME=30000" \
-  -p 8080:80 \
-  -d phpmyadmin/phpmyadmin
+    --link mysql:db \
+    -e "UPLOAD_LIMIT=100M" \
+    -e "MEMORY_LIMIT=1024M" \
+    -e "MAX_EXECUTION_TIME=30000" \
+    -p 8080:80 \
+    -d phpmyadmin/phpmyadmin
   ```
   1. و تمام. الان کافیه مرورگر رو باز کنید و به آدرس
   [http://localhost:8080](http://localhost:8080) برید
@@ -100,13 +101,13 @@ import { Accordion } from "../../../components/blocks/accordion";
 
   ```sql
   CREATE TABLE table1 (
-  column1 int,
-  column2 VARCHAR(50)
+    column1 int,
+    column2 VARCHAR(50)
   );
 
   CREATE TABLE table2 (
-  id INT PRIMARY KEY,
-  name VARCHAR(255)
+    id INT PRIMARY KEY,
+    name VARCHAR(255)
   );
   ```
   ---
@@ -143,7 +144,17 @@ import { Accordion } from "../../../components/blocks/accordion";
 
 </Accordion>
 
-<Accordion title={'جلسه سوم - آغاز کار با SELECT'} defaultOpen>
+<Accordion title={"دیتاست : world"}>
+
+  این دیتاست به صورت یه فایل `SQL` هست که باید `import` کنید توی `MySQL` خودتون
+
+  شامل سه جدول `country`، `city` و `countrylanguage` هست
+
+  <DownloadBtn href={"https://wp.mrkhosravian.ir/wp-content/uploads/2021/11/world.sql_.zip"}/>
+
+</Accordion>
+
+<Accordion title={'جلسه سوم - آغاز کار با SELECT'}>
 
   *مهم ترین بخش دستورات SQL ، دستورات SELECT هستند که برای بازیابی اطلاعات
   استفاده می شوند*
@@ -197,6 +208,17 @@ import { Accordion } from "../../../components/blocks/accordion";
   همونطور که مشاهده می کنید تنها با `DISTINCT` پشت اسم صفت قاره تونستیم مقادیر
   یکسان رو از پاسخ نهایی حذف کنیم
 
+
+  همچنین می تونیم با کلمه کلیدی `AS` بعد از اسم ستون ، اسم دیگری رو برای نمایش نام ستون انتخاب کنیم.
+  دقت کنید که این تغییر نام فقط بر روی این کوئری اعمال می شود و اسم ستون در جدول اصلی تغییر
+  نخواهد کرد
+
+
+  ```sql
+  SELECT Name as اسم, Continent as قاره, Population as جمعیت
+  FROM `country`;
+  ```
+
   ---
 
   ### توابع تجمعی (Aggregate Functions)
@@ -208,7 +230,6 @@ import { Accordion } from "../../../components/blocks/accordion";
   - `SUM` جمع مقادیر ستون
 
 
-
   ---
 
   برای شمارش تعداد کشور ها می توانیم از تابع `COUNT` استفاده کنیم
@@ -218,121 +239,296 @@ import { Accordion } from "../../../components/blocks/accordion";
   ```
 
 
-  ```sql
-  SELECT Name as اسم, Continent as قاره, Population as جمعیت
-  FROM `country`;
-  ```
+  *تابع `COUNT` مقادیر `NULL` را شمارش نمی کند*
+
 
   ```sql
   SELECT COUNT(`LifeExpectancy`) as تعداد FROM `country`;
   ```
+  
+  در مثال زیر از تابع `MAX` برای دریافت بیشنرین مقدار امید به زندگی استفاده می کنیم
+
 
   ```sql
   SELECT Max(LifeExpectancy) FROM `country`
   ```
 
+  از تابع `MIN` در مثال زیر برای پیدا کردن کمترین مساحت بین کشور های موجود در پایگاه داده خودمون استفاده میکنیم
+
+
   ```sql
   SELECT MIN(`SurfaceArea`) FROM `country`;
   ```
 
+  از تابع `AVG` هم برای دریافت مقدار میانگین امید به زندگی در میان تمام کشور ها می توانیم استفاده کنیم
+
   ```sql
   SELECT AVG(`LifeExpectancy`) FROM `country`;
   ```
+
+  تابع `SUM` هم همونطور که از اسمش مشخصه برای جمع زدن مقادیر یک ستون استفاده میشه. در مثال
+  زیر ما جمع زدن جمعیت تمام کشور ها می تونیم متوجه بشیم جمعیت جهان چه مقدار است
+
 
   ```sql
   -- World population
   SELECT SUM(`Population`) FROM `country`
   ```
 
+  ---
+
+  ### کوئری های شرطی
+
+  برای مشخص کردن شرط بر روی یک کوئری و فیلتر کردن پاسخ کوئری از کلمه کلیدی `WHERE` می تونیم
+  استفاده کنیم.
+
+  *`WHERE 1` معادل با تمام رکورد ها هست و تمام رکورد های موجود رو بر میگردونه*
+
   ```sql
   SELECT * FROM `country` WHERE 1
   ```
+
+  در مثال زیر ما مشخص کردیم که تنها رکورد هایی رو به ما نمایش بده که مقدار ستون `Code` جدول
+  برابر مقدار `IRN` باشد و هر رکورد دیگری که این شرط رو نقض کنه فیلتر خواهد شد
+
 
   ```sql
   SELECT * FROM `country`
   WHERE code = 'IRN';
   ```
 
+  ---
+
+  ### اپراتور های شرطی
+
+  - `> >= < <= =`
+  - `NOT`
+  - `AND`
+  - `OR`
+  - `BETWEEN`
+  - `IN`
+  - `LIKE`
+
+
+  با استفاده از کلمه کلیدی `NOT` قبل از هر شرطی می تونیم رکورد هایی رو دریافت کنیم که شرط مورد نظر
+  ما رو نقض کنن
+
+
   ```sql
   SELECT * FROM `country`
   WHERE NOT code = 'IRN';
   ```
+
+  در مثال زیر تنها کشور هایی رو دریافت خواهیم کرد که امید به زندگی در آن کشورها بیشتر از ۷۰ باشد **و**
+  درآمد ناخالص ملی (GNP) آن بیشتر از ۱۰۰۰ باشد
+
 
   ```sql
   SELECT * FROM `country`
   WHERE LifeExpectancy > 70 AND GNP > 1000;
   ```
 
+  در این مثال ما می خواهیم که **یا** کشوری که `Code` آن برابر با `IRN` هست رو به ما
+  برگردونه **یا** اینکه کشوری که `Code` اون برابر با مقدار `USA` باشه
+
+
   ```sql
   SELECT * FROM `country`
   WHERE code = 'IRN' OR code = 'USA';
   ```
 
-  ```sql
-  SELECT * FROM `country`
-  WHERE `GovernmentForm` LIKE '%islam%';
-  ```
+  ---
+
+
+  با استفاده از `IN` ما می تونیم مشخص کنیم که مقدار صفت یا ستون مورد نظر ، اگر در این مجموعه ای
+  از مقادیر که مشخص می کنیم ،‌ وجود داشت پس اون رکورد یا سطر رو برای ما برگردون
+
+
+  به طور مثال در کوئری زیر ما کشور هایی رو در جواب خواهیم داشت که اسم اون کشور ها در مجموعه ی
+  `('IRAN', 'United States', 'Argentina')` وجود داشته باشد ، هر سطری که اسمش در این
+  مجموعه وجود نداشت به ما برگردونده نخواهد شد
+
+
 
   ```sql
-  SELECT * FROM `country`
-  WHERE `Name` LIKE '____';
-  ```
-
-  ```sql
-  SELECT * FROM `country`
-  WHERE `Name` LIKE 'IR%';
-  ```
-
-  ```sql
-  SELECT * FROM `country`
-  WHERE REGEXP_LIKE(name, '^I.*[abcn]$');
-  ```
-
-  ```sql
-  -- Multiple OR
   SELECT * FROM `country`
   WHERE Name IN ('Iran', 'United States', 'Argentina');
   ```
+
+  *یه نکته جالب که وجود داره دستور بالا رو ما می تونستیم به صورت سه شرط به همراه `OR` بنویسیم ولی
+  استفاده از دستور `IN` خیلی راحت تر هست*
+
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE Name = 'Iran' OR Name = 'United States' OR Name = 'Argentina';
+  ```
+
+  همچنین مثل بقیه شرط ها اگر پشت دستور `IN` از `NOT` استفاده کنیم ، تمام رکورد هایی که مقدار اسم
+  آن ها در این مجموعه نباشند رو بر میگردونه
 
   ```sql
   SELECT * FROM `country`
   WHERE Name NOT IN ('Iran', 'United States', 'Argentina');
   ```
 
+  ---
+
+  ما از `BETWEEN` زمانی استفاده می کنیم که بخوایم رکورد هایی از دیتبایس رو دریافت کنیم که مقدار یک
+  یا چند ستون مورد نظر ما ، مقادیری بین دو مقدار که مشخص می کنیم داشته باشه
+
+
+  مثلا در مثال زیر تنها کشور هایی رو دریافت خواهیم کرد که جمعیت اونها بین ۶۰ تا ۱۰۰ میلیون هست
 
   ```sql
   SELECT * FROM `country`
   WHERE `Population` BETWEEN 60000000 AND 100000000;
   ```
 
+
+</Accordion>
+
+<Accordion title={'جلسه چهارم - کار با like و کوئری های تودرتو و مرتب سازی'}>
+
+  خب ما با دستورات شرطی آشنا شدیم و فقط `LIKE` در این بین جا موند
+
+  از کلمه کلیدی `LIKE` زمانی استفاده می کنیم که بخوایم یک رشته رو با توجه به الگوی خاصی انتخاب کنیم
+
+  در الگو های `LIKE` ما اصطلاحا دو `wildcard` داریم که می تونیم استفاده کنیم که در پایین مشاهده می کنید
+
+
+  - `%` صفر یا هر تعداد کاراکتر
+  - `_` فقط یک کاراکتر
+
+
+
+  به طور مثال در کوئری زیر ما تنها کشور هایی رو دریافت خواهیم کرد که نوع حکومت آن ها شامل کلمه
+  `islam` باشه. دقت کنید که فرقی نمی کنه که این کلمه در کجای متن وجود داشته باشه
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `GovernmentForm` LIKE '%islam%';
+  ```
+
+  یا در مثال زیر تنها کشور هایی رو دریافت خواهیم کرد که چهار حرفی باشند
+
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `Name` LIKE '____';
+  ```
+
+  یا در مثال زیر تنها کشور هایی که با دو حرف `IR` شروع شده اند رو دریافت خواهیم کرد
+
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE `Name` LIKE 'IR%';
+  ```
+
+  یا مثال زیر که کشور هایی رو که دارای ۴ حرف هستند و حرف اول آنها `i` و حرف آخر آنها `n` هست
+  رو برمیگردونه
+
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE Name LIKE 'i__n';
+  ```
+
+  همچنین با `NOT` هم می تونیم رکورد هایی که ناقض شرط ما هستند رو فقط دریافت کنیم
+
+
+  ```sql
+  SELECT * FROM `country` WHERE Name NOT LIKE 'i__n';
+  ```
+
+  *در DBMS های دیگه wildcard های بیشتری رو ممکنه مشاهده کنید که در MySQL وجود ندارند!*
+
+  در `MySQL` در صورت علاقه می تونید از تابع `REGEXP_LIKE` استفاده کنید و هر الگوری `regex` که
+  خواستید رو اعمال کنید در جستجوی خودتون همانند مثال زیر که تمام کشور هایی با نامی که با حرف `I`
+  شروع شده و با یکی از حروف `a, b, c` تمام می شوند رو دریافت می کند
+
+
+  ```sql
+  SELECT * FROM `country`
+  WHERE REGEXP_LIKE(name, '^I.*[abcn]$');
+  ```
+
+  ---
+
+
+  ### مرتب سازی
+
+  قطعا توی اکثر کوئری هاتون نیاز خواهید داشت تا جواب رو بر اساس یک ستون مشخص مرتب سازی کنید
+
+  برای مرتب سازی در `SQL` از دستور `ORDER BY` می تونیم استفاده کنیم
+
+  به منظور مشخص کردن صعودی یا نزولی بودن مرتب سازی می تونیم از مقادیر زیر استفاده کنیم
+
+  - ASC (default) - صعودی
+  - DESC - نزولی
+
+
+
+  به طور مثال در کوئری زیر ما مشخص کردیم که تمام کشور ها رو بر اساس جمعیت آنها و به صورت
+  صعدوی مرتب کن
+
+  *دقت کنید که مقدار `ASC` مقدار پیشفرض هست و در صورتی که آن را ذکر هم نکنید تفاوتی با وقتی که
+  ذکر کنید ندارد*
+
   ```sql
   SELECT * FROM `country` ORDER BY `Population` ASC;
   ```
 
+  برای مرتب سازی به صورت نزولی کافیه جلوی اسم ستون مورد نظر ما `DESC` نوشته
+
+
   ```sql
-  -- ASC is default
   SELECT * FROM `country` ORDER BY `Population` DESC;
   ```
+
+  ما می تونیم چندین ستون رو برای مرتب سازی مشخص کنیم
+
+  *دقت کنید که اولویت مرتب سازی ستون ها از سمت چپ ، بیشترین اولویت و سمت راست ، کمترین اولویت هست.
+  به این معنا که مرتب سازی در مثال پایین اول بر اساس مقدار امید به زندگی کشور ها به صورت صعودی هست و
+  اگر دو یا چند کشور دارای مقدار امید به زندگی برابری بودند ، سپس مرتب سازی بر اساس جمعیت ، آن هم به صورت نزولی برای آن تعداد کشوری که امید به زندگی برابری داشتند صورت خواهد گرفت.*
+
 
   ```sql
   SELECT * FROM `country`
   ORDER BY LifeExpectancy ASC, `Population` DESC;
   ```
 
+  ---
+
+  ### کوئری ها تودرتو (Sub Queries)
+
+  گاها ما احتیاج پیدا می کنیم که در یک کوئری از یک کوئری دیگه هم استفاده کنیم
+
+  *کوئری های تودرتو از پرفورمنس خوبی برخوردار نیستند اگر در جلوی دستور `SELECT` استفاده شوند، زیرا به ازای
+  هر رکورد یکبار اجرا می شوند*
+
+  به طور مثال در کوئری زیر ما قصد داریم که نام کشور و. پایتخت آن رو دریافت کنیم ، ولی پایتخت کشورها
+  به صورت کلید خارجی و تنها یک عدد در جدول کشور ها وجود دارد. پس برای اینکه ما بتونیم اسم پایتخت ها رو نمایش بدیم
+  باید به ازای هر کشور کد پایتخت رو دریافت کنیم و در جدول شهر ها به دنبال شهری با چنین `ID` باشیم
+  تا اسم اون رو برگردونیم
+
+  *این کوئری بهترین روش انجام اینکار نیست ولی درسته!*
+
   ```sql
-  SELECT * FROM `country`
-  WHERE `Population` BETWEEN 60000000 AND 100000000
-  ORDER BY `Population` DESC
-  LIMIT 10;
+  SELECT Name, (
+
+    SELECT Name
+    FROM city
+    WHERE country.Capital = city.ID
+
+  ) AS Capital
+  FROM `country`;
   ```
 
 </Accordion>
 
-<Accordion title={'جلسه چهارم - پیشنیاز ها'}>
+<Accordion title={"تمرین اول"} color={"yellow"}>
 
-
-  ```sql
-  SELECT * FROM users;
-  ```
 
 </Accordion>
