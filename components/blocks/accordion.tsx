@@ -26,7 +26,7 @@ export const Accordion: FC<PropsWithChildren<Props>> = (props) => {
   return (
     <div className={"accordion rounded overflow-hidden shadow-lg"}>
       <div
-        className={classNames("py-3 p-5 flex justify-between", headerColors)}
+        className={classNames("py-3 p-5 flex justify-between", headerColors)}       
         onClick={() => setOpen(prevState => !prevState)}>
         {props.title}
         <ChevronDown
