@@ -1,22 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+![Logo](./public/mohammad-reza-khosravian.png)
 
-First, run the development server:
+
+# MR Khosravian personal website
+
+This my personal website for sharing my resume, comments and projects. 👨🏿‍💻
+
+## Badges
+
+![Twitter Follow](https://img.shields.io/twitter/follow/mrkhosravian_ir?style=social)
+
+
+## Demo
+
+[mrkhosravian.ir](https://www.mrkhosravian.ir)
+## Acknowledgements
+
+- [What is Next.js ?](https://nextjs.org/) - The ~static~ dynamic site generator for dynamic web developers
+
+
+## Related
+
+Here are some related projects
+
+[irangard](https://irangardapp.ir) - sharing images on map
+
+
+## Tech Stack
+
+**Client:** React, Next.js, TailwindCSS
+
+**Server:** Node, Vercel CDN
+
+
+## Run Locally
+
+Clone the project
 
 ```bash
-npm run dev
-# or
-yarn dev
+  git clone https://github.com/mrkhosravian/mrkhosravian.ir.git
+```
+
+Go to the project directory
+
+```bash
+  cd mrkhosravian.ir
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 ## Learn More
 
