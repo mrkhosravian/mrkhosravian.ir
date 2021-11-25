@@ -81,7 +81,7 @@ const Home: NextPage = (props) => {
             <div className="py-10 flex flex-col justify-center items-center">
               <span
                 className={"text-gradient text-6xl"}>{_calculateAge(new Date("1999-6-8"))}<span
-                className={"text-white opacity-60 text-xl"}>{t("Years")}</span></span>
+                className={"opacity-60 text-xl"}>{t("Years")}</span></span>
               <span className={"text-xl font-thin"}>{t("Old")}</span>
             </div>
           </Card1>
