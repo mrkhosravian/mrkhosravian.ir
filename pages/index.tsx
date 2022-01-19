@@ -25,10 +25,8 @@ const Home: NextPage = (props) => {
             <span
               className={"text-lg md:text-xl"}>{t("home:Hi, This is")}</span>
             <div
-              className={"flex flex-col font-bold text-4xl md:text-5xl text-gradient uppercase tracking-wider mt-1"}>
-              <span className={"py-2"}>{t("common:name.first")}</span>
-              <span className={"py-2"}>{t("common:name.middle")}</span>
-              <span className={"py-2"}>{t("common:name.last")}</span>
+              className={"flex flex-col font-bold text-4xl md:text-5xl uppercase tracking-wider mt-1"}>
+              <span className={"py-2 text-gradient"}>{t("common:name.first")}<br />{t("common:name.middle")}<br />{t("common:name.last")}</span>
             </div>
             <span
               className={"text-lg md:text-xl block mt-5"}>{t("home:Programmer, Computer and Food lover")}</span>
