@@ -18,6 +18,9 @@ import { MDXRemote } from "next-mdx-remote";
 
 interface SingleProjectPageInterface {
   project: any;
+  frontMatter: any;
+  source: any;
+  slug: any
 }
 
 const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
