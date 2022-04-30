@@ -1,6 +1,5 @@
-import { fetchAPI } from "./api";
-import { postFilePaths } from "../mdxUtils";
+import { DateTypeEnum, getFilePaths } from "../mdxUtils";
 
 export function getAllPosts(lang: "en"|"fa", preview: boolean = false) {
-  return postFilePaths(lang)
+  return getFilePaths(lang, DateTypeEnum.Posts)
 }

@@ -17,8 +17,8 @@ export async function fetchAPI(query: string, { variables }: any = {}) {
   // error handling work
   const json = await res.json();
   if (json.errors) {
-    console.log(json.errors);
-    console.log("error details", query, variables);
+    // console.log(json.errors);
+    // console.log("error details", query, variables);
     throw new Error("Failed to fetch API");
   }
   return json.data;

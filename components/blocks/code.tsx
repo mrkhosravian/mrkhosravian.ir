@@ -15,7 +15,6 @@ const CodeBlock = ({ children, className, prismLoadLanguages }: any) => {
   return (
     <Highlight Prism={Prism} code={children} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => {
-        // console.log(tokens);
         return (
           <pre className={className + " rounded shadow-xl whitespace-nowrap"} style={{
             ...style,

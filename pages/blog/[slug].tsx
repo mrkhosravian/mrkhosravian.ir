@@ -18,6 +18,7 @@ import CodeBlock from "../../components/blocks/code";
 import { readFileSync } from "fs";
 import { Accordion } from "../../components/blocks/accordion";
 import DownloadBtn from "../../components/buttons/download";
+import { DateTypeEnum } from "../../lib/mdxUtils";
 
 interface SingleBlogPostInterface {
   frontMatter: any;
@@ -112,7 +113,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const x = readFileSync(`${process.cwd()}/data/posts/${context.locale}/${context.params!.slug}.mdx`);
+  const x = readFileSync(`${process.cwd()}/data/${DateTypeEnum.Posts}/${context.locale}/${context.params!.slug}.mdx`);
   const {
     content,
     data

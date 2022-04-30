@@ -11,7 +11,7 @@ import matter from "gray-matter";
 import moment from "moment-jalaali";
 import { useRouter } from "next/router";
 import Pagination from "../../components/list/pagination";
-import { countPosts } from "../../lib/mdxUtils";
+import { count, DateTypeEnum } from "../../lib/mdxUtils";
 import { BlogConfig } from "../../lib/config";
 
 interface Props {
@@ -102,7 +102,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       ...await serverSideTranslations(context.locale!, ["common", "blog"]),
       posts: postsData,
       currentPage: 1,
-      totalPages: countPosts(context.locale! as "fa" | "en")
+      totalPages: count(context.locale! as "fa" | "en", DateTypeEnum.Posts)
     }
   };
 };

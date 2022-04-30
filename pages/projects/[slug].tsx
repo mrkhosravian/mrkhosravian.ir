@@ -8,6 +8,13 @@ import moment from "moment-jalaali";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Meta from "../../components/meta/meta";
+import { getAllPosts } from "../../lib/api/blog";
+import { readFileSync } from "fs";
+import matter from "gray-matter";
+import { serialize } from "next-mdx-remote/serialize";
+import { DateTypeEnum } from "../../lib/mdxUtils";
+import { MDXProvider } from "@mdx-js/react";
+import { MDXRemote } from "next-mdx-remote";
 
 interface SingleProjectPageInterface {
   project: any;
@@ -17,7 +24,9 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
   const router = useRouter();
   const { t } = useTranslation("projects");
 
-  const project = props.project;
+  const components = {};
+
+  const project = props.frontMatter;
 
   return (
     <Layout>
@@ -29,7 +38,7 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
 
           <figure className={"mb-5 md:mb-0 sm:w-64 mr-5 rtl:mr-0 rtl:ml-5"}>
             <Image
-              src={project.featuredImage?.node.sourceUrl || "/mohammad-reza-khosravian.png"}
+              src={project.image || "/mohammad-reza-khosravian.png"}
               alt={project.title}
               width={300}
               height={300}
@@ -53,45 +62,68 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
               <span className={"text-2xl"}>{t("Date")}</span>
               <time
                 className={"block opacity-60 mt-1"}>{moment(project.date).locale(router.locale!).format(
-                  router.locale! === "fa" ? "jYYYY/jM/jD" : "YYYY/M/D"
+                router.locale! === "fa" ? "jYYYY/jM/jD" : "YYYY/M/D"
               )}</time>
             </div>
           </div>
 
         </div>
-        <div dangerouslySetInnerHTML={{
-          __html: project.content
-        }} className={"single-post"} />
+        <div className={"single-post"}>
+          <MDXProvider components={components}>
+            <MDXRemote {...props.source} />
+          </MDXProvider>
+        </div>
       </div>
     </Layout>
   );
 };
-export const getStaticProps: GetStaticProps = async (context) => {
-  const data = await getProject(context.params!.slug as string, context.locale || "en");
 
-  if (!data.project) {
-    return {
-      notFound: true
-    };
-  }
+export const getStaticProps: GetStaticProps = async (context) => {
+  const x = readFileSync(`${process.cwd()}/data/${DateTypeEnum.Projects}/${context.locale}/${context.params!.slug}.mdx`);
+  const {
+    content,
+    data
+  } = matter(x);
+
+  const mdxSource = await serialize(content, { scope: data });
 
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common", "projects"]),
-      project: data.project
+      source: mdxSource,
+      frontMatter: data,
+      slug: context.params!.slug
     }
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
 
-  const projects = await getAllProjects();
+  let enProjects: any, faProjects: any;
+
+  try {
+    faProjects = getAllProjects("fa");
+  } catch (e) {
+    faProjects = [];
+  }
+  try {
+    enProjects = getAllProjects("en");
+  } catch (e) {
+    enProjects = [];
+  }
+
+  const paths = faProjects.map(({ slug }: { slug: string }) => ({
+    params: { slug },
+    locale: "en"
+  }));
+
+  paths.push(...enProjects.map(({ slug }: { slug: string }) => ({
+    params: { slug },
+    locale: "fa"
+  })));
 
   return {
-    paths: projects.nodes.map((project: any) => ({
-      params: { slug: project.slug },
-      locale: project.language.code === "EN" ? "en" : "fa"
-    })),
+    paths,
     fallback: false
   };
 };

@@ -1,19 +1,20 @@
 import type { GetStaticProps, NextPage } from "next";
 import Layout from "../../components/layout";
 import Image from "next/image";
-import { getAllProjectsByLocale } from "../../lib/api/projects";
+import { getAllProjects, getAllProjectsByLocale } from "../../lib/api/projects";
 import Link from "next/link";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useTranslation } from "next-i18next";
 import Meta from "../../components/meta/meta";
+import { count, DateTypeEnum } from "../../lib/mdxUtils";
 
 interface ProjectsPageInterface {
-  projects: any;
+  posts: any;
 }
 
 const ProjectsPage: NextPage<ProjectsPageInterface> = (props) => {
   const { t } = useTranslation(["projects"]);
-  const projects = props.projects.nodes;
+  const projects = props.posts;
   return (
     <Layout>
 
@@ -29,14 +30,14 @@ const ProjectsPage: NextPage<ProjectsPageInterface> = (props) => {
           {
             projects.map((project: any) => {
               return (
-                <div key={project.id}
+                <div key={project.slug}
                      className="relative bg-white dark:bg-gray-700 shadow-md rounded-3xl p-2 cursor-pointer ">
                   <Link href={`/projects/${project.slug}`}>
                     <a>
                       <div
                         className="overflow-x-hidden rounded-2xl relative h-64">
                         <Image className="h-40 rounded-2xl w-full object-cover"
-                               src={project.featuredImage?.node.sourceUrl || "/mohammad-reza-khosravian.png"}
+                               src={project.image || "/mohammad-reza-khosravian.png"}
                                layout={"fill"} alt={project.title} />
                       </div>
                     </a>
@@ -69,10 +70,14 @@ const ProjectsPage: NextPage<ProjectsPageInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+  let posts = getAllProjects(context.locale! as "fa" | "en");
+
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["projects", "common"]),
-      projects: await getAllProjectsByLocale(context.locale || "en")
+      posts,
+      currentPage: 1,
+      totalPages: count(context.locale! as "fa" | "en", DateTypeEnum.Projects)
     }
   };
 };

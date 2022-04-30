@@ -3,7 +3,7 @@ import { GetStaticPaths } from "next";
 import { getAllPosts } from "../../../lib/api/blog";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import matter from "gray-matter";
-import { countPosts } from "../../../lib/mdxUtils";
+import { count } from "../../../lib/mdxUtils";
 import { BlogConfig } from "../../../lib/config";
 import BlogPage from "../index";
 
@@ -28,15 +28,15 @@ export const getStaticProps: GetStaticProps = async (context) => {
       ...await serverSideTranslations(context.locale!, ["common", "blog"]),
       posts: postsData,
       currentPage: currentPage,
-      totalPages: countPosts(context.locale! as "fa" | "en")
+      totalPages: count(context.locale! as "fa" | "en")
     }
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async (context) => {
 
-  const faPosts = countPosts("fa");
-  const enPosts = countPosts("en");
+  const faPosts = count("fa");
+  const enPosts = count("en");
 
   const paths = [];
   let page = 1;
