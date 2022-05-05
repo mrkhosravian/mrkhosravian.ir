@@ -15,19 +15,22 @@ import { serialize } from "next-mdx-remote/serialize";
 import { DateTypeEnum } from "../../lib/mdxUtils";
 import { MDXProvider } from "@mdx-js/react";
 import { MDXRemote } from "next-mdx-remote";
+import ImageGallery from "../../components/gallery/ImageGallery";
 
 interface SingleProjectPageInterface {
   project: any;
   frontMatter: any;
   source: any;
-  slug: any
+  slug: any;
 }
 
 const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
   const router = useRouter();
   const { t } = useTranslation("projects");
 
-  const components = {};
+  const components = {
+    ImageGallery
+  };
 
   const project = props.frontMatter;
 
@@ -37,7 +40,7 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
       <Meta title={project.title} />
 
       <div className="max-w-5xl px-5 lg:px-0 mx-auto py-20">
-        <div className="flex flex-col sm:flex-row border-b-2 pb-10">
+        <div className="flex flex-col sm:flex-row border-b-2 pb-10 mb-10">
 
           <figure className={"mb-5 md:mb-0 sm:w-64 mr-5 rtl:mr-0 rtl:ml-5"}>
             <Image
@@ -115,12 +118,12 @@ export const getStaticPaths: GetStaticPaths = async (context) => {
     enProjects = [];
   }
 
-  const paths = faProjects.map(({ slug }: { slug: string }) => ({
+  const paths = enProjects.map(({ slug }: { slug: string }) => ({
     params: { slug },
     locale: "en"
   }));
 
-  paths.push(...enProjects.map(({ slug }: { slug: string }) => ({
+  paths.push(...faProjects.map(({ slug }: { slug: string }) => ({
     params: { slug },
     locale: "fa"
   })));

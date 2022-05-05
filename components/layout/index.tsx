@@ -11,9 +11,9 @@ const Layout: FC<PropsWithChildren<LayoutProps>> = (props) => {
     <Base>
       <div
         className={"relative min-h-screen w-full float-left bg-gray-100 dark:bg-gray-800"}>
-        <Header />
-        {props.children}
-        <Footer />
+          <Header />
+          {props.children}
+          <Footer />
       </div>
     </Base>
   );

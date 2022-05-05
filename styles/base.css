@@ -45,7 +45,7 @@
     font-family: "JetBrains Mono", serif;
 }
 
-.single-post img {
+.single-post > img {
     @apply w-full rounded;
 }
 
