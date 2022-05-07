@@ -125,3 +125,16 @@ html[dir="rtl"] .single-post tbody tr td:last-child {
 .single-post tbody tr:nth-child(even) {
     @apply bg-gray-300 dark:bg-gray-900 bg-opacity-60 dark:bg-opacity-60 hover:bg-opacity-100 dark:hover:bg-opacity-100;
 }
+
+
+/* Code Blocks */
+
+:not(pre) > code[class*="language-"], pre[class*="language-"] {
+    @apply rounded shadow-xl;
+    direction: ltr;
+}
+
+:not(pre) > code[class*="language-"] span, pre[class*="language-"] span {
+    font-family: "JetBrains Mono", serif !important;
+    font-size: 14px;
+}

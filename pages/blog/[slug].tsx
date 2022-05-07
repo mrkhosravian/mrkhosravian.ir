@@ -12,16 +12,15 @@ import { useRouter } from "next/router";
 import { serialize } from "next-mdx-remote/serialize";
 import { MDXRemote } from "next-mdx-remote";
 import Meta from "../../components/meta/meta";
-import matter from "gray-matter";
-import { MDXProvider } from "@mdx-js/react";
-import CodeBlock from "../../components/blocks/code";
 import { readFileSync } from "fs";
 import { Accordion } from "../../components/blocks/accordion";
 import DownloadBtn from "../../components/buttons/download";
 import { DateTypeEnum } from "../../lib/mdxUtils";
+import remarkGfm from "remark-gfm";
+// @ts-ignore
+import rehypePrism from "@mapbox/rehype-prism";
 
 interface SingleBlogPostInterface {
-  frontMatter: any;
   source: any;
   prismLoadLanguages: any;
   slug: string;
@@ -30,11 +29,7 @@ interface SingleBlogPostInterface {
 
 const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
-  const { prismLoadLanguages } = props;
-
   const components = {
-    code: (props: any) => <CodeBlock
-      prismLoadLanguages={prismLoadLanguages} {...props} />,
     Accordion,
     DownloadBtn
   };
@@ -46,7 +41,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
   return (
     <Layout>
 
-      <Meta title={props.frontMatter.title} />
+      <Meta title={props.source.frontmatter.title} />
 
       <div className="max-w-5xl mx-auto px-5 lg:px-0 xl:px-0 py-10 mb-20">
         <main className="mt-10 lg:mt-20 space-y-6">
@@ -54,8 +49,8 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
             <div
               className="col-span-4 lg:text-center mb-10 relative lg:sticky lg:top-20 lg:self-start">
               <Image
-                src={props.frontMatter.image || "/mohammad-reza-khosravian.png"}
-                alt={props.frontMatter.title}
+                src={props.source.frontmatter.image || "/mohammad-reza-khosravian.png"}
+                alt={props.source.frontmatter.title}
                 className={"rounded-xl"}
                 width={400}
                 height={400}
@@ -64,7 +59,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
               <p className="mt-4 block text-gray-400 text-xs">
                 {t("Published")}:
-                <time> {moment(props.frontMatter.date).locale(router.locale!).fromNow()}</time>
+                <time> {moment(props.source.frontmatter.date).locale(router.locale!).fromNow()}</time>
               </p>
             </div>
 
@@ -80,7 +75,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               </div>
 
               <h1 className="font-bold text-3xl lg:text-4xl mb-10">
-                {props.frontMatter.title}
+                {props.source.frontmatter.title}
               </h1>
 
               <a
@@ -100,9 +95,7 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
               </a>
 
               <div className={"single-post"}>
-                <MDXProvider components={components}>
-                  <MDXRemote {...props.source} />
-                </MDXProvider>
+                <MDXRemote {...props.source} components={components}/>
               </div>
             </div>
           </article>
@@ -113,30 +106,16 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const x = readFileSync(`${process.cwd()}/data/${DateTypeEnum.Posts}/${context.locale}/${context.params!.slug}.mdx`);
-  const {
-    content,
-    data
-  } = matter(x);
-
-  const mdxSource = await serialize(content, { scope: data });
-
-  const kotlin = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-kotlin.js`).toString();
-  const java = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-java.js`).toString();
-  const docker = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-docker.js`).toString();
-  const bash = readFileSync(`${process.cwd()}/node_modules/prismjs/components/prism-bash.js`).toString();
+  const content = readFileSync(`${process.cwd()}/data/${DateTypeEnum.Posts}/${context.locale}/${context.params!.slug}.mdx`);
+  const mdxSource = await serialize(content.toString(), {
+    parseFrontmatter: true,
+    mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypePrism] }
+  });
 
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common", "blog"]),
       source: mdxSource,
-      frontMatter: data,
-      prismLoadLanguages: [
-        kotlin,
-        java,
-        docker,
-        bash
-      ],
       slug: context.params!.slug
     }
   };

@@ -10,10 +10,12 @@ const CodeBlock = ({ children, className, prismLoadLanguages }: any) => {
     eval(lng);
   });
 
-  const language = className.replace(/language-/, "");
+  const language = className?.replace(/language-/, "");
 
   return (
-    <Highlight Prism={Prism} code={children} language={language}>
+    !language
+      ? <span className={"rounded shadow-xl whitespace-nowrap"}>{children}</span>
+    : <Highlight Prism={Prism} code={children} language={language}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => {
         return (
           <pre className={className + " rounded shadow-xl whitespace-nowrap"} style={{

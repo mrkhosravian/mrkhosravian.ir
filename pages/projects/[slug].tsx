@@ -2,25 +2,23 @@ import type { GetStaticProps, NextPage } from "next";
 import { GetStaticPaths } from "next";
 import Layout from "../../components/layout";
 import Image from "next/image";
-import { getAllProjects, getProject } from "../../lib/api/projects";
+import { getAllProjects } from "../../lib/api/projects";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import moment from "moment-jalaali";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import Meta from "../../components/meta/meta";
-import { getAllPosts } from "../../lib/api/blog";
 import { readFileSync } from "fs";
-import matter from "gray-matter";
 import { serialize } from "next-mdx-remote/serialize";
 import { DateTypeEnum } from "../../lib/mdxUtils";
-import { MDXProvider } from "@mdx-js/react";
-import { MDXRemote } from "next-mdx-remote";
+import { MDXRemote, MDXRemoteSerializeResult } from "next-mdx-remote";
 import ImageGallery from "../../components/gallery/ImageGallery";
+import remarkGfm from "remark-gfm";
+import { MDXComponents } from "mdx/types";
 
 interface SingleProjectPageInterface {
   project: any;
-  frontMatter: any;
-  source: any;
+  source: MDXRemoteSerializeResult;
   slug: any;
 }
 
@@ -32,7 +30,7 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
     ImageGallery
   };
 
-  const project = props.frontMatter;
+  const project: any = props.source.frontmatter;
 
   return (
     <Layout>
@@ -75,9 +73,8 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
 
         </div>
         <div className={"single-post"}>
-          <MDXProvider components={components}>
-            <MDXRemote {...props.source} />
-          </MDXProvider>
+          <MDXRemote {...props.source}
+                     components={components as MDXComponents} />
         </div>
       </div>
     </Layout>
@@ -85,19 +82,17 @@ const SingleProjectPage: NextPage<SingleProjectPageInterface> = (props) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const x = readFileSync(`${process.cwd()}/data/${DateTypeEnum.Projects}/${context.locale}/${context.params!.slug}.mdx`);
-  const {
-    content,
-    data
-  } = matter(x);
+  const content = readFileSync(`${process.cwd()}/data/${DateTypeEnum.Projects}/${context.locale}/${context.params!.slug}.mdx`);
 
-  const mdxSource = await serialize(content, { scope: data });
+  const mdxSource = await serialize(content.toString(), {
+    parseFrontmatter: true,
+    mdxOptions: { remarkPlugins: [remarkGfm] }
+  });
 
   return {
     props: {
       ...await serverSideTranslations(context.locale!, ["common", "projects"]),
       source: mdxSource,
-      frontMatter: data,
       slug: context.params!.slug
     }
   };
