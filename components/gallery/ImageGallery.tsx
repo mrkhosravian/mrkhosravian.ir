@@ -10,8 +10,8 @@ interface Props {
 
 export const ImageGallery: FC<PropsWithChildren<Props>> = (props) => {
   return (
-    <div className={"grid grid-cols-4 gap-5"}
-         style={{ gridTemplateRows: "masonry" }}>
+    <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5"}
+         style={{ gridTemplateRows: "masonry"}}>
       {
         props.images.map((image, i) => {
           return <ZoomableImg key={i} src={image.src} alt={image.alt} />;
