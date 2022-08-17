@@ -1,7 +1,7 @@
 import type { GetStaticProps, NextPage } from "next";
 import Layout from "../components/layout";
 import Image from "next/image";
-import myPic from "../public/mohammad-reza-khosravian.png";
+import myPic from "../public/mohammad-reza-khosravian-2022.png";
 import Card1 from "../components/cards/card1";
 import { _calculateAge } from "../lib/helpers";
 import { useTranslation } from "next-i18next";
@@ -16,12 +16,12 @@ const Home: NextPage = (props) => {
 
       <Meta title={t("title")} />
 
-      <section className="w-full md:max-w-5xl mx-auto h-screen min-h-[700px]">
+      <section className="w-full md:max-w-5xl mx-auto h-screen min-h-[700px] px-5">
         <div
           className="flex flex-col md:flex-row justify-center md:justify-between h-full items-center px-5 md:px-0">
 
           <div
-            className={"md:w-[650px] flex flex-col justify-center order-2 md:order-1"}>
+            className={"md:flex-1 flex flex-col justify-center order-2 md:order-1 md:ltr:mr-20 md:rtl:ml-20"}>
             <span
               className={"text-lg md:text-xl"}>{t("home:Hi, This is")}</span>
             <div
@@ -33,7 +33,7 @@ const Home: NextPage = (props) => {
           </div>
 
           <div
-            className={"rounded-full overflow-hidden flex avatar-shadows order-1 md:order-2 w-48 md:w-auto mb-20 md:mb-0"}>
+            className={"max-w-sm rounded-full overflow-hidden flex md:flex-1 avatar-shadows order-1 md:order-2 mb-20 md:mb-0"}>
             <Image src={myPic}
                    alt="Mohammad Reza Khosravian"
             />
