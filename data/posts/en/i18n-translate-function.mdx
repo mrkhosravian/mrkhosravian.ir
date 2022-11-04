@@ -1,0 +1,66 @@
+---
+title: "Create multi language functionality using javascript"
+date: 'Thu Sep  1 10:34:08 AM EDT 2022'
+image: https://mrkhosravian.s3.ir-thr-at1.arvanstorage.com/Unofficial_JavaScript_logo_2.svg.png
+excerpt: how to create a translate function and use this function to show different text based on language
+---
+
+
+First we create an object containing all translate texts
+
+```javascript
+const translates = {
+    fa: {
+        blog: {
+            header: {
+                title: "وبلاگ محمدرضا خسرویان",
+            },
+        },
+    },
+    en: {
+        blog: {
+            header: {
+                title: "Mohammad Reza Khosravian Blog",
+            },
+        },
+    }
+}
+```
+
+Then we create a function to get lang attribute of html documente element
+
+```javascript
+const getHtmlLang = () => document.documentElement.lang
+```
+
+Finally we create a `t` (translate) function
+
+```javascript
+function t(key, lang) {
+
+    // get document language
+    const language = lang || getHtmlLang() || "en";
+
+    // take out locale translate texts
+    const texts = translates[language];
+
+    // find text
+    return key.split('.').reduce((o, i) => {
+        if (o) return o[i]
+    }, texts)
+}
+```
+
+Usage:
+
+```javascript
+console.log( t("blog.header.title") ) // 'Mohammad Reza Khosravian Blog'
+
+// Or
+
+console.log( t("blog.header.title", "fa") ) // 'وبلاگ محمدرضا خسرویان'
+
+// Or
+
+console.log( t("blog.header.something", "en") ) // undefind
+```
