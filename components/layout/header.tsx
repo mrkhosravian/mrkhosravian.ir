@@ -13,7 +13,7 @@ const Header: FunctionComponent = () => {
       <div className="max-w-5xl mx-auto flex justify-between relative">
         <h1 className={"w-64 font-bold text-gradient"}>
           <Link href={"/"}>
-            <a>{t("logo")}</a>
+            {t("logo")}
           </Link>
         </h1>
         <HorizontalMenu />

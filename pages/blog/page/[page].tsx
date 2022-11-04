@@ -25,7 +25,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      ...await serverSideTranslations(context.locale!, ["common", "blog"]),
+      ...(await serverSideTranslations(context.locale!, ["common", "blog"])),
       posts: postsData,
       currentPage: currentPage,
       totalPages: count(context.locale! as "fa" | "en", DateTypeEnum.Posts)

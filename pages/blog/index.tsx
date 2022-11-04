@@ -42,24 +42,23 @@ const BlogPage: NextPage<Props> = (props) => {
                 <Card1 key={post.slug}>
                   <article className={"flex flex-col md:flex-row items-center"}>
                     <Link href={`/blog/${post.slug}`}>
-                      <a>
-                        <figure
-                          className={"blog-shadows-left flex overflow-hidden rounded-full mr-5 w-32 md:w-auto mb-8 md:mb-5 mt-5 md:ml-8 rtl:ml-16"}>
-                          <Image
-                            src={post.image || "/mohammad-reza-khosravian.png"}
-                            alt={post.title}
-                            width={200}
-                            height={200}
-                            quality={60}
-                            objectFit={"cover"}
-                          />
-                        </figure>
-                      </a>
+
+                      <figure
+                        className={"blog-shadows-left flex overflow-hidden relative rounded-full mr-5 w-48 h-48 mb-8 md:mb-5 mt-5 md:ml-8 rtl:ml-16"}>
+                        <Image
+                          src={post.image || "/mohammad-reza-khosravian.png"}
+                          alt={post.title}
+                          quality={60}
+                          fill={true}
+                          objectFit={"cover"}
+                        />
+                      </figure>
+
                     </Link>
                     <div className={"flex-1"}>
                       <Link
-                        href={`/blog/${post.slug}`}><a
-                        className={"text-2xl md:text-3xl font-bold mb-5 block text-start"}>{post.title}</a></Link>
+                        href={`/blog/${post.slug}`}
+                        className={"text-2xl md:text-3xl font-bold mb-5 block text-start"}>{post.title}</Link>
                       <div className={"font-light text-xl"}
                            dangerouslySetInnerHTML={{
                              __html: post.excerpt
@@ -99,7 +98,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      ...await serverSideTranslations(context.locale!, ["common", "blog"]),
+      ...(await serverSideTranslations(context.locale!, ["common", "blog"])),
       posts: postsData,
       currentPage: 1,
       totalPages: count(context.locale! as "fa" | "en", DateTypeEnum.Posts)

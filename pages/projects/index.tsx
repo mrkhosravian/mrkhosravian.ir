@@ -33,21 +33,21 @@ const ProjectsPage: NextPage<ProjectsPageInterface> = (props) => {
                 <div key={project.slug}
                      className="relative bg-white dark:bg-gray-700 shadow-md rounded-3xl p-2 cursor-pointer ">
                   <Link href={`/projects/${project.slug}`}>
-                    <a>
-                      <div
-                        className="overflow-x-hidden rounded-2xl relative h-64">
-                        <Image className="h-40 rounded-2xl w-full object-cover"
-                               src={project.image || "/mohammad-reza-khosravian.png"}
-                               layout={"fill"} alt={project.title} />
-                      </div>
-                    </a>
+
+                    <div
+                      className="overflow-x-hidden rounded-2xl relative h-64">
+                      <Image className="h-40 rounded-2xl w-full object-cover"
+                             src={project.image || "/mohammad-reza-khosravian.png"}
+                             layout={"fill"} alt={project.title} />
+                    </div>
+
                   </Link>
                   <div className="mt-4 pl-2 mb-2 flex justify-between ">
                     <div>
                       <p
                         className="text-lg font-semibold mb-0">
                         <Link
-                          href={`/projects/${project.slug}`}><a>{project.title}</a></Link>
+                          href={`/projects/${project.slug}`}>{project.title}</Link>
                       </p>
                       <div className="text-md opacity-60 mt-0"
                            dangerouslySetInnerHTML={{
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      ...await serverSideTranslations(context.locale!, ["projects", "common"]),
+      ...(await serverSideTranslations(context.locale!, ["projects", "common"])),
       posts,
       currentPage: 1,
       totalPages: count(context.locale! as "fa" | "en", DateTypeEnum.Projects)

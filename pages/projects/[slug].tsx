@@ -91,7 +91,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      ...await serverSideTranslations(context.locale!, ["common", "projects"]),
+      ...(await serverSideTranslations(context.locale!, ["common", "projects"])),
       source: mdxSource,
       slug: context.params!.slug
     }

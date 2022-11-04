@@ -65,12 +65,13 @@ const SingleBlogPost: NextPage<SingleBlogPostInterface> = (props) => {
 
             <div className="col-span-8">
               <div className="hidden lg:flex mb-6">
-                <Link href="/blog">
-                  <a
-                    className="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-yellow-500">
-                    <Arrow />
-                    {t("Back to Posts")}
-                  </a>
+                <Link
+                  href="/blog"
+                  className="transition-colors duration-300 relative inline-flex items-center text-lg hover:text-yellow-500">
+
+                  <Arrow />
+                  {t("Back to Posts")}
+
                 </Link>
               </div>
 
@@ -114,7 +115,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      ...await serverSideTranslations(context.locale!, ["common", "blog"]),
+      ...(await serverSideTranslations(context.locale!, ["common", "blog"])),
       source: mdxSource,
       slug: context.params!.slug
     }

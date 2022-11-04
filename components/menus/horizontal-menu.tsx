@@ -9,13 +9,13 @@ const HorizontalMenu: FC = () => {
   return (
     <ul className={"hidden md:flex"}>
       <li>
-        <Link href={"/"}>
-          <a className={"py-2 px-5"}>{t("Home")}</a>
+        <Link href={"/"} className={"py-2 px-5"}>
+          {t("Home")}
         </Link>
       </li>
       <li>
-        <Link href={"/projects"}>
-          <a className={"py-2 px-5"}>{t("Projects")}</a>
+        <Link href={"/projects"} className={"py-2 px-5"}>
+          {t("Projects")}
         </Link>
       </li>
       {/*<li>*/}
@@ -24,8 +24,8 @@ const HorizontalMenu: FC = () => {
       {/*  </Link>*/}
       {/*</li>*/}
       <li>
-        <Link href={"/blog"}>
-          <a className={"py-2 px-5"}>{t("Blog")}</a>
+        <Link href={"/blog"} className={"py-2 px-5"}>
+          {t("Blog")}
         </Link>
       </li>
     </ul>
